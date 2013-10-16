@@ -1,31 +1,30 @@
 <?php
+namespace Simples\Test ;
 
-require_once(dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'bootstrap.php');
-
-class Simples_Document_SetTest extends PHPUnit_Framework_TestCase {
+class Set extends \PHPUnit_Framework_TestCase {
 
 	public function testConstruct() {
-		$set = new Simples_Document_Set() ;
-		$this->assertTrue($set instanceof Simples_Document_Set) ;
+		$set = new \Simples\Document\Set() ;
+		$this->assertTrue($set instanceof \Simples\Document\Set) ;
 
 		try {
-			$set = new Simples_Document_Set(array('something', 'bad')) ;
+			$set = new \Simples\Document\Set(array('something', 'bad')) ;
 			$this->fail() ;
 		} catch (Exception $e) {
 		}
 
-		$set = new Simples_Document_Set(new Simples_Document(array('something' => 'good'))) ;
-		$this->assertTrue($set instanceof Simples_Document_Set) ;
+		$set = new \Simples\Document\Set(new Simples_Document(array('something' => 'good'))) ;
+		$this->assertTrue($set instanceof \Simples\Document\Set) ;
 		$this->assertEquals(1, count($set)) ;
 
-		$set = new Simples_Document_Set(array(new Simples_Document(array('something' => 'good')))) ;
-		$this->assertTrue($set instanceof Simples_Document_Set) ;
+		$set = new \Simples\Document\Set(array(new Simples_Document(array('something' => 'good')))) ;
+		$this->assertTrue($set instanceof \Simples\Document\Set) ;
 		$this->assertEquals(1, count($set)) ;
 	}
 
 	public function testInterfaces() {
 		// Traversable (IteratorAggregate)
-		$set = new Simples_Document_Set() ;
+		$set = new \Simples\Document\Set() ;
 		$set->set(array(
 			array('firstname' => 'Jim'),
 			array('firstname' => 'Ray'),
@@ -44,13 +43,13 @@ class Simples_Document_SetTest extends PHPUnit_Framework_TestCase {
 
 	public function testCheck() {
 		$data = array('Not','A','Set') ;
-		$this->assertFalse(Simples_Document_Set::check($data)) ;
+		$this->assertFalse(\Simples\Document\Set::check($data)) ;
 
 		$data = array(
 			array('is' => 'A Simples_Document'),
 			array('is' => 'Another Simples_Document')
 		) ;
-		$this->assertTrue(Simples_Document_Set::check($data)) ;
+		$this->assertTrue(\Simples\Document\Set::check($data)) ;
 	}
 
 	public function testTransformation() {
@@ -58,7 +57,7 @@ class Simples_Document_SetTest extends PHPUnit_Framework_TestCase {
 			array('is' => 'A Simples_Document', 'empty' => ''),
 			array('is' => 'Another Simples_Document', 'zero' => '0')
 		) ;
-		$set = new Simples_Document_Set($data) ;
+		$set = new \Simples\Document\Set($data) ;
 
 		$res = $set->to('array') ;
 		$this->assertEquals($data, $res) ;
@@ -76,7 +75,7 @@ class Simples_Document_SetTest extends PHPUnit_Framework_TestCase {
 			array('id' => 1, 'is' => 'A Simples_Document', 'empty' => '', 'sub' => array('key' => 'value')),
 			array('id' => 2, 'is' => 'Another Simples_Document', 'zero' => '0')
 		) ;
-		$set = new Simples_Document_Set($data) ;
+		$set = new \Simples\Document\Set($data) ;
 
 		$res = $set->combine('id','is') ;
 		$this->assertEquals(array(
@@ -98,11 +97,11 @@ class Simples_Document_SetTest extends PHPUnit_Framework_TestCase {
 		$data = array(
 			array('_id' => 10)
 		) ;
-		$set = new Simples_Document_Set($data, array('source' => true)) ;
+		$set = new \Simples\Document\Set($data, array('source' => true)) ;
 		$this->assertTrue($set->get(0)->properties() instanceof Simples_Document) ;
 		$this->assertEquals(10, $set->get(0)->properties()->id) ;
 
-		$set = new Simples_Document_Set($data, array('source' => false)) ;
+		$set = new \Simples\Document\Set($data, array('source' => false)) ;
 		$this->assertFalse($set->get(0)->properties() instanceof Simples_Document) ;
 	}
 

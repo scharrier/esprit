@@ -1,13 +1,12 @@
 <?php
+namespace Simples\Test\Request ;
 
-require_once(dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'bootstrap.php');
-
-class Simples_Request_DeleteIndexTest extends PHPUnit_Framework_TestCase {
+class DeleteIndex extends \PHPUnit_Framework_TestCase {
 
 	public function testDelete() {
-		$client = new Simples_Transport_Http();		
+		$client = new \Simples\Transport\Http();
 		$request = $client->deleteIndex('twitter') ;
-		$this->assertEquals(Simples_Request::DELETE, $request->method()) ;
+		$this->assertEquals(\Simples\Request::DELETE, $request->method()) ;
 		$this->assertEquals('/twitter/', (string) $request->path()) ;
 	}
 

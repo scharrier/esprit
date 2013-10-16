@@ -1,4 +1,8 @@
 <?php
+namespace Simples\Document ;
+
+use \Simples\Document ;
+use \Simples\Document\Exception ;
 
 /**
  * Set of Elasticsearch documents.
@@ -7,7 +11,7 @@
  * @package	Simples
  * @subpackage Document
  */
-class Simples_Document_Set extends Simples_Base implements IteratorAggregate, Countable {
+class Set extends \Simples\Base implements \IteratorAggregate, \Countable {
 
 	/**
 	 * Set data.
@@ -43,20 +47,20 @@ class Simples_Document_Set extends Simples_Base implements IteratorAggregate, Co
 	 * Sets the documents.
 	 *
 	 * @param array $set		Set of documents.
-	 * @throws Simples_Document_Exception
+	 * @throws Document_Exception
 	 */
 	public function set($set) {
 		if (!self::check($set)) {
-			throw new Simples_Document_Exception('$set is not a valid Simples_Document_Set set of documents') ;
+			throw new Exception('$set is not a valid Document_Set set of documents') ;
 		}
-		if ($set instanceof Simples_Document) {
+		if ($set instanceof Document) {
 			$this->_data[] = $set ;
 		} else {
 			foreach($set as $document) {
-				if ($document instanceof Simples_Document) {
+				if ($document instanceof Document) {
 					$this->_data[] = $document ;
 				} else {
-					$this->_data[] = new Simples_Document($document, $this->config()) ;
+					$this->_data[] = new Document($document, $this->config()) ;
 				}
 			}
 		}
@@ -68,7 +72,7 @@ class Simples_Document_Set extends Simples_Base implements IteratorAggregate, Co
 	 * Get an element from the set.
 	 *
 	 * @param  int $position 		Element position
-	 * @return Simples_Document     Element, if exists (null if not)
+	 * @return Document     Element, if exists (null if not)
 	 */
 	public function get($position) {
 		return (isset($this->_data[$position])) ? $this->_data[$position] : null ;
@@ -80,7 +84,7 @@ class Simples_Document_Set extends Simples_Base implements IteratorAggregate, Co
 	 * @return \ArrayIterator
 	 */
 	public function getIterator() {
-		return new ArrayIterator($this->_data) ;
+		return new \ArrayIterator($this->_data) ;
 	}
 
 	/**
@@ -122,13 +126,13 @@ class Simples_Document_Set extends Simples_Base implements IteratorAggregate, Co
 	}
 
 	/**
-	 * Static callable : check if data can be a Simples_Document_Set.
+	 * Static callable : check if data can be a Document_Set.
 	 *
 	 * @param mixed		$data		Data to test.
 	 * @return boolean
 	 */
 	static public function check($data) {
-		if ($data instanceof Simples_Document) {
+		if ($data instanceof Document) {
 			return true ;
 		}
 		if (!is_array($data)) {
@@ -138,7 +142,7 @@ class Simples_Document_Set extends Simples_Base implements IteratorAggregate, Co
 			if (!is_numeric($key)) {
 				return false ;
 			}
-			if (!is_array($value) && !$value instanceof Simples_Document) {
+			if (!is_array($value) && !$value instanceof Document) {
 				return false ;
 			}
 		}

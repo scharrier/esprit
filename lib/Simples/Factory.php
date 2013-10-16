@@ -1,4 +1,5 @@
 <?php
+namespace Simples ;
 
 /**
  * Factory : generates instances following the configured mapping.
@@ -6,7 +7,7 @@
  * @author Sébastien Charrier <scharrier@gmail.com>
  * @package	Simples
  */
-class Simples_Factory extends Simples_Base {
+class Factory extends Base {
 
 	/**
 	 * Current mapping.
@@ -29,17 +30,17 @@ class Simples_Factory extends Simples_Base {
 	 */
 	static protected $_baseMapping = array(
 		'Request' => array(
-			'status' => 'Simples_Request_Status',
-			'stats' => 'Simples_Request_Stats',
-			'index' => 'Simples_Request_Index',
-			'update' => 'Simples_Request_Update',
-			'get' => 'Simples_Request_Get',
-			'delete' => 'Simples_Request_Delete',
-			'search' => 'Simples_Request_Search',
-			'mapping' => 'Simples_Request_Mapping',
-			'createIndex' => 'Simples_Request_CreateIndex',
-			'deleteIndex' => 'Simples_Request_DeleteIndex',
-			'deleteType' => 'Simples_Request_DeleteType'
+			'status' => '\Simples\Request\Status',
+			'stats' => '\Simples\Request\Stats',
+			'index' => '\Simples\Request\Index',
+			'update' => '\Simples\Request\Update',
+			'get' => '\Simples\Request\Get',
+			'delete' => '\Simples\Request\Delete',
+			'search' => '\Simples\Request\Search',
+			'mapping' => '\Simples\Request\Mapping',
+			'createIndex' => '\Simples\Request\CreateIndex',
+			'deleteIndex' => '\Simples\Request\DeleteIndex',
+			'deleteType' => '\Simples\Request\DeleteType'
 		),
 		'Response' => array(
 		),
@@ -66,7 +67,7 @@ class Simples_Factory extends Simples_Base {
 	 * the Autoload.php processus, you have ton require it manually.
 	 *
 	 * Examples of usage :
-	 * $factory->map('Request.status','Simples_Request_MyCustomStatus');
+	 * $factory->map('Request.status','\Simples\Request\MyCustomStatus');
 	 * $factory->map('Request', array(...));
 	 * $factory->map(array(
 	 *		'Request' => array(
@@ -89,7 +90,7 @@ class Simples_Factory extends Simples_Base {
 			if (strpos($path, '.') !== false) {
 				$path = explode('.', $path) ;
 				if (!isset(self::$_baseMapping[$path[0]])) {
-					throw new Simples_Factory_Exception('Bad namespace level "' . $path[0] . '"') ;
+					throw new \Simples\Factory\Exception('Bad namespace level "' . $path[0] . '"') ;
 				}
 				$classes = array(
 					$path[0] => array(
@@ -123,7 +124,7 @@ class Simples_Factory extends Simples_Base {
 			return $this->_mapping ;
 		}
 		if (!isset($this->_mapping[$path])) {
-			throw new Simples_Factory_Exception('Bad namespace "' . $path . '"') ;
+			throw new Simples\Factory\Exception('Bad namespace "' . $path . '"') ;
 		}
 		return $this->_mapping[$path] ;
 	}
@@ -210,7 +211,7 @@ class Simples_Factory extends Simples_Base {
 	 */
 	protected function _reflect($class) {
 		if (!isset($this->_reflection[$class])) {
-			$this->_reflection[$class] = new ReflectionClass($class) ;
+			$this->_reflection[$class] = new \ReflectionClass($class) ;
 		}
 		return $this->_reflection[$class] ;
 	}

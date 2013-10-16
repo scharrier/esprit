@@ -1,41 +1,42 @@
 <?php
+namespace Simples\Request\Search ;
 
 /**
  * A search criteria.
- * 
+ *
  * @author Sébastien Charrier <scharrier@gmail.com>
  * @package	Simples
  * @subpackage Request
  */
-abstract class Simples_Request_Search_Criteria extends Simples_Base {
-		
+abstract class Criteria extends \Simples\Base {
+
 	/**
 	 * Default type.
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $_defaultType = 'term' ;
-	
+
 	/**
 	 * Criteria normalized data.
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $_data = array(
 		'value' => null,
 		'in' => null
 	) ;
-	
+
 	/**
 	 * Criteria options.
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $_options = array() ;
-	
+
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param mixed		$definition		Criteria definition. String or array.
 	 * @param array		$options		Array of options.
 	 */
@@ -43,15 +44,15 @@ abstract class Simples_Request_Search_Criteria extends Simples_Base {
 		if (isset($definition) || isset($options)) {
 			$this->_data = $this->_normalize($definition, $options) ;
 		}
-		
+
 		if (isset($options)) {
 			$this->_options = $options ;
 		}
 	}
-	
+
 	/**
 	 * Returns the criteria options.
-	 * 
+	 *
 	 * @return array	Options
 	 */
 	public function options(array $options = null) {
@@ -61,13 +62,13 @@ abstract class Simples_Request_Search_Criteria extends Simples_Base {
 		}
 		return $this->_options ;
 	}
-	
-	
+
+
 	/**
 	 * Returns all the normalized data, or only for a key if $key is given.
-	 * 
+	 *
 	 * @param string	$key	[optionnal]	Key to return.
-	 * @return mixed			Normalized data 
+	 * @return mixed			Normalized data
 	 */
 	public function get($key = null) {
 		if (isset($key)) {
@@ -81,13 +82,13 @@ abstract class Simples_Request_Search_Criteria extends Simples_Base {
 		}
 		return $data ;
 	}
-	
+
 	/**
 	 * Detect the criteria type. Try to detect it if not explicitly defined.
-	 * 
+	 *
 	 * @param array		$definition		Criteria definition
 	 * @param array		$options		Criteria options
-	 * @return string					Type. 
+	 * @return string					Type.
 	 */
 	public function type() {
 		if (isset($this->_options['type'])) {
@@ -99,15 +100,15 @@ abstract class Simples_Request_Search_Criteria extends Simples_Base {
 				return 'terms' ;
 			}
 		}
-		
+
 		return $this->_defaultType ;
 	}
-	
+
 	/**
 	 * Normalize $definition (query / in).
-	 * 
+	 *
 	 * @param mixed		$definition		Criteria definition (string/array)
-	 * @return array					Normalized definition 
+	 * @return array					Normalized definition
 	 */
 	protected function _normalize($definition) {
 		if (is_string($definition)) {
@@ -118,13 +119,13 @@ abstract class Simples_Request_Search_Criteria extends Simples_Base {
 		} else {
 			$definition = array() ;
 		}
-		
+
 		return $definition + array('value' => null, 'in' => null) ;
 	}
 
 	/**
 	 * Normalize the search scope (fields/field/in).
-	 * 
+	 *
 	 * @param array		$definition		Criteria definition
 	 */
 	protected function _in(&$definition) {
@@ -136,7 +137,7 @@ abstract class Simples_Request_Search_Criteria extends Simples_Base {
 			}
 		}
 
-		// Final wash 
+		// Final wash
 		if (isset($definition['in'])) {
 			if (is_array($definition['in'])) {
 				if (count($definition['in']) === 1) {
@@ -148,7 +149,7 @@ abstract class Simples_Request_Search_Criteria extends Simples_Base {
 
 	/**
 	 * Normalize values keys.
-	 * 
+	 *
 	 * @param  array &$definition Clause definition
 	 */
 	protected function _value(&$definition) {
@@ -161,30 +162,30 @@ abstract class Simples_Request_Search_Criteria extends Simples_Base {
 			}
 		}
 	}
-	
+
 	/**
 	 * Returns the data prepared for ES requesting.
-	 * 
+	 *
 	 * @return array
 	 */
 	protected function _data(array $options = array()) {
 		$type = $this->type() ;
 		$method = '_prepare_' . $type ;
 		if (method_exists($this, $method)) {
-			return $this->{$method}() ; 
+			return $this->{$method}() ;
 		}
-		
+
 		return $this->_prepare_term($type) ;
 	}
-	
+
 	/**
 	 * Prepare for a "term" clause.
-	 * 
+	 *
 	 * @return array
 	 */
 	protected function _prepare_term($type = 'term') {
 		$data = $this->get() ;
-		
+
 		if (!isset($data['in']) || !isset($data['value'])) {
 			throw new Simples_Request_Exception('Key "in" or "value" empty', $data) ;
 		}
@@ -192,12 +193,12 @@ abstract class Simples_Request_Search_Criteria extends Simples_Base {
 		$in = $data['in'] ;
 		$value = $data['value'] ;
 		$data = array_diff_key($data, array('in' => true, 'value' => true)) ;
-			
+
 		if (!is_array($in)) {
 			$return = array(
 				$type => array(
 					$in => $this->_termIn($type, $value, $data)
-				) 
+				)
 			);
 		} else {
 			$return = array(
@@ -214,20 +215,20 @@ abstract class Simples_Request_Search_Criteria extends Simples_Base {
 				$return['bool']['should'][] = $_clause ;
 			}
 		}
-		
-		
+
+
 		return $return ;
 	}
 
 	/**
 	 * Prepare for an "prefix" clause. Let the user give an array of values : in this case,
 	 * generates one boolean clause by value.
-	 * 
+	 *
 	 * @return array
 	 */
 	protected function _prepare_prefix() {
 		$data = $this->get() ;
-		
+
 		if (!isset($data['in']) || !isset($data['value'])) {
 			throw new Simples_Request_Exception('Key "in" or "value" empty', $data) ;
 		}
@@ -235,12 +236,12 @@ abstract class Simples_Request_Search_Criteria extends Simples_Base {
 		$in = $data['in'] ;
 		$value = $data['value'] ;
 		$data = array_diff_key($data, array('in' => true, 'value' => true)) ;
-			
+
 		if (!is_array($value)) {
 			$return = array(
 				'prefix' => array(
 					$in => $this->_termIn('prefix', $value, $data)
-				) 
+				)
 			);
 		} else {
 			$return = array(
@@ -257,39 +258,39 @@ abstract class Simples_Request_Search_Criteria extends Simples_Base {
 				$return['bool']['should'][] = $_clause ;
 			}
 		}
-		
-		
+
+
 		return $return ;
 	}
 
 	/**
 	 * Prepare for a "missing" or "exists" clause.
-	 * 
+	 *
 	 * @return array
 	 */
 	protected function _prepare_missing($type = 'missing') {
 		$data = $this->get() ;
-		
+
 		if (!isset($data['in'])) {
 			throw new Simples_Request_Exception('Key "in" is empty', $data) ;
 		}
 
 		$in = $data['in'] ;
 		unset($data['in']) ;
-			
-		
+
+
 		$return = array(
 			$type => array(
 				'field' => $in
 			) + $data
-		);		
-		
+		);
+
 		return $return ;
 	}
 
 	/**
 	 * Prepare for an "exists" clause.
-	 * 
+	 *
 	 * @return array
 	 */
 	protected function _prepare_exists() {
@@ -298,58 +299,58 @@ abstract class Simples_Request_Search_Criteria extends Simples_Base {
 
 	/**
 	 * Prepare for a "ids" clause.
-	 * 
+	 *
 	 * @return array
 	 */
 	protected function _prepare_ids() {
 		$data = $this->get() ;
-		
+
 		if (!isset($data['value'])) {
 			throw new Simples_Request_Exception('Key "value" is empty', $data) ;
 		}
 
 		$value = $data['value'] ;
 		unset($data['value']) ;
-			
-		
+
+
 		$return = array(
 			'ids' => array(
 				'values' => $value
 			) + $data
-		);		
-		
+		);
+
 		return $return ;
 	}
 
 	/**
 	 * Prepare for a "geo_bounding_box" clause.
-	 * 
+	 *
 	 * @return array
 	 */
 	protected function _prepare_geo_bounding_box() {
 		$data = $this->get() ;
-		
+
 		if (!isset($data['in'])) {
 			throw new Simples_Request_Exception('Key "in" is empty', $data) ;
 		}
 
 		$in = $data['in'] ;
 		unset($data['in']) ;
-			
-		
+
+
 		$return = array(
 			'geo_bounding_box' => array(
 				$in => $data
 			)
-		);		
-		
+		);
+
 		return $return ;
 	}
 
 	/**
 	 * Autodetect the "in" key to use. Not coherent in the ES API, I try to make
 	 * some magic here.
-	 * 
+	 *
 	 * @param  string $type  Criteria type
 	 * @param  string $value Value
 	 * @param  [type] $data  [description]
@@ -369,24 +370,24 @@ abstract class Simples_Request_Search_Criteria extends Simples_Base {
 
 	/**
 	 * Prepare for a range clause.
-	 * 
+	 *
 	 * @return array
 	 */
 	protected function _prepare_range() {
 		$data = $this->get() ;
-		
+
 		if (!isset($data['in'])) {
 			throw new Simples_Request_Exception('Key "in" empty', $data) ;
 		}
 
 		$in = $data['in'] ;
 		unset($data['in']) ;
-			
+
 		if (!isset($data['ranges'])) {
 			$return = array(
 				'range' => array(
 					$in => $data
-				) 
+				)
 			);
 		} else {
 			$return = array(
@@ -405,18 +406,18 @@ abstract class Simples_Request_Search_Criteria extends Simples_Base {
 				$return['bool']['should'][] = $_clause ;
 			}
 		}
-		
+
 		return $return ;
 	}
 
 	/**
 	 * Prepare for a geo distance clause.
-	 * 
+	 *
 	 * @return array
 	 */
 	protected function _prepare_geo_distance() {
 		$data = $this->get() ;
-		
+
 		if (!isset($data['in'])) {
 			throw new Simples_Request_Exception('Key "in" is empty', $data) ;
 		}
@@ -435,18 +436,18 @@ abstract class Simples_Request_Search_Criteria extends Simples_Base {
 		if (empty($values)) {
 			throw new Simples_Request_Exception('Keys "values","lat","lon" are empty', $data) ;
 		}
-		
-			
+
+
 		$return = array(
 			'geo_distance' => array($in => $values) + $data
 		);
-		
+
 		return $return ;
 	}
-		
+
 	/**
 	 * Test if a criteria is mergeable with the current criteria.
-	 * 
+	 *
 	 * @param Simples_Request_Search_Criteria $criteria		Criteria to test.
 	 * @return boolean										Yes/no ?
 	 */
@@ -465,10 +466,10 @@ abstract class Simples_Request_Search_Criteria extends Simples_Base {
 		}
 		return true ;
 	}
-	
+
 	/**
-	 * Merge a criteria with current. 
-	 * 
+	 * Merge a criteria with current.
+	 *
 	 * @param Simples_Request_Search_Criteria $criteria		Criteria to merge.
 	 * @return \Simples_Request_Search_Criteria				This instance (fluid interface).
 	 */
@@ -476,5 +477,5 @@ abstract class Simples_Request_Search_Criteria extends Simples_Base {
 		$this->_data = array_merge($this->_data, $criteria->get()) ;
 		unset($criteria) ;
 		return $this ;
-	}	
+	}
 }

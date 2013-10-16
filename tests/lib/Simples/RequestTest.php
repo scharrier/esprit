@@ -1,85 +1,87 @@
 <?php
-require_once(dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'bootstrap.php') ;
+namespace Simples\Tests;
 
-class Simples_RequestTest extends PHPUnit_Framework_TestCase {
-	
+class Request extends \PHPUnit_Framework_TestCase {
+
 	public function testConstruct() {
-		$request = new Simples_Request_Custom() ;
-		$this->assertTrue($request instanceof Simples_Request) ;
+		$request = new \Simples\Request\Custom() ;
+		$this->assertTrue($request instanceof \Simples\Request) ;
 	}
-	
+
 	public function testDefinition() {
-		$request = new Simples_Request_Custom() ;
-		$this->assertTrue($request->definition() instanceof Simples_Request_Definition) ;
+		$request = new \Simples\Request\Custom() ;
+		$this->assertTrue($request->definition() instanceof \Simples\Request\Definition) ;
 		$this->assertEquals('_status', $request->definition()->path()) ;
 	}
-	
+
 	public function testPath() {
-		$request = new Simples_Request_Custom() ;
+		$request = new \Simples\Request\Custom() ;
 		$this->assertEquals('/_status/', $request->path()) ;
-		
+
 	}
-	
+
 	public function testMethod() {
-		$request = new Simples_Request_Custom() ;
-		$this->assertEquals(Simples_Request::GET, $request->method()) ;
-		
+		$request = new \Simples\Request\Custom() ;
+		$this->assertEquals(\Simples\Request::GET, $request->method()) ;
+
 	}
-	
+
 	public function testExecute() {
-		$request = new Simples_Request_Custom() ;
+		$request = new \Simples\Request\Custom() ;
 		$res = $request->execute() ;
-		$this->assertTrue($request->execute() instanceof Simples_Response) ;
-		
-		$res = $request->client(new Simples_Transport_Http())->execute() ;
+		$this->assertTrue($request->execute() instanceof \Simples\Response) ;
+
+		$res = $request->client(new \Simples\Transport\Http())->execute() ;
 		$this->assertTrue($res->get('ok') === true) ;
 	}
-	
+
 	public function testTo() {
-		$request = new Simples_Request_Custom() ;
+		$request = new \Simples\Request\Custom() ;
 		$this->assertTrue(is_string($request->to('json'))) ;
-		
-		
+
+
 		$request->body(array(
 			'hey' => 'ho'
 		)) ;
 		$res = $request->to('array') ;
 		$this->assertTrue(is_array($res)) ;
 		$this->assertEquals('ho', $res['hey']) ;
-		
+
 		try {
 			$request->to('somethingbad') ;
 			$this->fail('No exception !') ;
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 		}
 	}
-	
+
 	public function testIndicesTypes() {
-		$request = new Simples_Request_Custom(null, array(
+		$request = new \Simples\Request\Custom(null, array(
 			'index' => 'twitter',
 			'type' => 'tweet'
 		)) ;
 		$this->assertEquals('twitter', $request->index()) ;
 		$this->assertEquals('tweet', $request->type()) ;
-		
+
 		$request->options(array('type' => array(
 			'tweet','user'
 		))) ;
 		$this->assertEquals('tweet,user', $request->type()) ;
-		
+
 		$this->assertEquals('/twitter/tweet,user/_status/', (string) $request->path()) ;
-		
+
 	}
 }
 
-class Simples_Request_Custom extends Simples_Request {
-	
+namespace Simples\Request ;
+
+class Custom extends \Simples\Request {
+
 	protected $_path = '/_status' ;
-	
-	protected $_method = Simples_Request::GET ;
-	
+
+	protected $_method = \Simples\Request::GET ;
+
 	protected $_definition = array(
-		'method' => Simples_Request::GET,
+		'method' => \Simples\Request::GET,
 		'path' => '_status'
 	) ;
 }

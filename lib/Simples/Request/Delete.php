@@ -1,4 +1,5 @@
 <?php
+namespace Simples\Request ;
 
 /**
  * Delete and object.
@@ -7,7 +8,7 @@
  * @package    Simples
  * @subpackage Request
  */
-class Simples_Request_Delete extends Simples_Request {
+class Delete extends \Simples\Request {
 
     /**
      * Definition

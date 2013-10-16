@@ -1,4 +1,9 @@
 <?php
+namespace Simples\Request ;
+
+use \Simples\Path ;
+use \Simples\Document ;
+use \Simples\Document\Set ;
 
 /**
  * Index.
@@ -9,7 +14,7 @@
  * @package	Simples
  * @subpackage Request
  */
-class Simples_Request_Index extends Simples_Request {
+class Index extends \Simples\Request {
 
 	/**
 	 * Bulk action name.
@@ -68,7 +73,7 @@ class Simples_Request_Index extends Simples_Request {
 	 */
 	public function path() {
 		if ($this->bulk()) {
-			$path = new Simples_Path('_bulk') ;
+			$path = new Path('_bulk') ;
 			if ($this->definition()->inject('params')) {
 				$path->params($this->params()) ;
 			}
@@ -78,7 +83,7 @@ class Simples_Request_Index extends Simples_Request {
 			// Object id transmited : we had it to the url.
 			if (isset($this->_options['id'])) {
 				$path->directory($this->_options['id']) ;
-			} elseif ($this->_body instanceof Simples_Document) {
+			} elseif ($this->_body instanceof Document) {
 				if ($this->_body->id) {
 					$path->directory($this->_body->id) ;
 				} elseif ($this->_body->properties() && $this->_body->properties()->id) {
@@ -98,15 +103,15 @@ class Simples_Request_Index extends Simples_Request {
 	 */
 	public function body($body = null) {
 		if (isset($body)) {
-			if ($body instanceof Simples_Document) {
+			if ($body instanceof Document) {
 				$this->_body = $body ;
-			} elseif ($body instanceof Simples_Document_Set || Simples_Document_Set::check($body)) {
-				if (!$body instanceof Simples_Document_Set) {
-					 $body = new Simples_Document_Set($body) ;
+			} elseif ($body instanceof Set || Set::check($body)) {
+				if (!$body instanceof Set) {
+					 $body = new Set($body) ;
 				 }
 				 $this->_body = $body ;
 			} else {
-				$this->_body = new Simples_Document($body) ;
+				$this->_body = new Document($body) ;
 			}
 			return $this ;
 		}
@@ -124,7 +129,7 @@ class Simples_Request_Index extends Simples_Request {
 	 * @return bool
 	 */
 	public function bulk() {
-		return $this->_body instanceof Simples_Document_Set ;
+		return $this->_body instanceof Set ;
 	}
 
 	/**
@@ -143,7 +148,7 @@ class Simples_Request_Index extends Simples_Request {
 	 */
 	protected function _toJson($data, array $options = array()) {
 		$json = '' ;
-		if ($this->_body instanceof Simples_Document_Set) {
+		if ($this->_body instanceof Set) {
 			$iterator = $data->getIterator() ;
 			foreach($iterator as $document) {
 				$action = array(
@@ -181,7 +186,7 @@ class Simples_Request_Index extends Simples_Request {
 	 * @param  Simples_Document $document Doc to index
 	 * @return string                     Json string
 	 */
-	protected function _jsonDoc(Simples_Document $document, array $options = array()) {
+	protected function _jsonDoc(Document $document, array $options = array()) {
 		return $document->to('json', $options + $this->_options) ;
 	}
 
@@ -192,6 +197,6 @@ class Simples_Request_Index extends Simples_Request {
 	 * @return \Simples_Response_Search
 	 */
 	protected function _response($data) {
-		return new Simples_Response_Bulk($data, $this->options()) ;
+		return new \Simples\Response\Bulk($data, $this->options()) ;
 	}
 }

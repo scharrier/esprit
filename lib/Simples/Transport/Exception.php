@@ -1,12 +1,12 @@
 <?php
-
+namespace Simples\Transport ;
 /**
  * Transport exception.
- * 
+ *
  * @author Sébastien Charrier <scharrier@gmail.com>
  * @package	Simples
- * @subpackage Transport 
+ * @subpackage Transport
  */
-class Simples_Transport_Exception extends Exception {
-	
+class Exception extends \Exception {
+
 }

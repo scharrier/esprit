@@ -1,17 +1,18 @@
 <?php
+namespace Simples\Request ;
 
 /**
  * Delete an index.
- * 
+ *
  * @author Sébastien Charrier <scharrier@gmail.com>
  * @package	Simples
  * @subpackage Request
  */
-class Simples_Request_DeleteIndex extends Simples_Request_CreateIndex {
-	
+class DeleteIndex extends CreateIndex {
+
 	/**
 	 * Definition
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $_definition = array(

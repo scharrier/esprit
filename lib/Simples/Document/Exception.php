@@ -1,12 +1,13 @@
 <?php
+namespace Simples\Document ;
 
 /**
  * Document exception.
- * 
+ *
  * @author Sébastien Charrier <scharrier@gmail.com>
  * @package	Simples
- * @subpackage Document 
+ * @subpackage Document
  */
-class Simples_Document_Exception extends Exception {
-	
+class Exception extends \Exception {
+
 }

@@ -1,26 +1,27 @@
 <?php
+namespace Simples\Response ;
 
 /**
  * Response exception : the ES server has responded something bad.
- * 
+ *
  * @author Sébastien Charrier <scharrier@gmail.com>
  * @package	Simples
- * @subpackage Transport 
+ * @subpackage Transport
  */
-class Simples_Response_Exception extends Exception {
-	
+class Exception extends \Exception {
+
 	/**
 	 * Exception data.
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $_data = array(
 		'error' => null
 	);
-	
+
 	/**
 	 * Construct the data from multiple types.
-	 * 
+	 *
 	 * @param mixed		$response_data		ES response data
 	 */
 	public function __construct($response_data) {
@@ -35,17 +36,17 @@ class Simples_Response_Exception extends Exception {
 			$message = $response_data ;
 			$response_data = array('error' => $message) ;
 		}
-		
+
 		$this->_data = $response_data ;
-		
+
 		parent::__construct($message) ;
 	}
-	
+
 	/**
 	 * Magic calls.
-	 * 
+	 *
 	 * @param string	$name		Key
-	 * @return mixed				Value 
+	 * @return mixed				Value
 	 */
 	public function __get($name) {
 		return isset($this->_data[$name]) ? $this->_data[$name] : null ;

@@ -1,18 +1,19 @@
 <?php
+namespace Simples\Request ;
 
 /**
  * Status (/_status)
- * 
+ *
  * Returns the cluster status.
- * 
+ *
  * @author Sébastien Charrier <scharrier@gmail.com>
  * @package	Simples
  */
-class Simples_Request_Status extends Simples_Request {
-	
+class Status extends \Simples\Request {
+
 	/**
 	 * Definition
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $_definition = array(

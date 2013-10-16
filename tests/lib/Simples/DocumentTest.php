@@ -1,7 +1,7 @@
 <?php
-require_once(dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'bootstrap.php') ;
+namespace Simples\Test ;
 
-class Simples_DocumentTest extends PHPUnit_Framework_TestCase {
+class Document extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Set up some fixtures.
@@ -38,17 +38,17 @@ class Simples_DocumentTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testConstruct() {
-		$request = new Simples_Document() ;
-		$this->assertTrue($request instanceof Simples_Document) ;
+		$request = new \Simples\Document() ;
+		$this->assertTrue($request instanceof \Simples\Document) ;
 	}
 
 	public function testAccessors() {
-		$document = new Simples_Document($this->data['standard']) ;
+		$document = new \Simples\Document($this->data['standard']) ;
 
 		$this->assertEquals('Jim', $document->firstname);
-		$this->assertTrue($document->band instanceof Simples_Document) ;
-		$this->assertFalse($document->categories instanceof Simples_Document) ;
-		$this->assertTrue($document->friends instanceof Simples_Document_Set) ;
+		$this->assertTrue($document->band instanceof \Simples\Document) ;
+		$this->assertFalse($document->categories instanceof \Simples\Document) ;
+		$this->assertTrue($document->friends instanceof \Simples\Document\Set) ;
 		$this->assertNull($document->properties()) ;
 
 		$document->band->created = '1965' ;
@@ -56,7 +56,7 @@ class Simples_DocumentTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('1965',$document->get('band.created')) ;
 		$this->assertEquals(null,$document->get('band.createeed')) ;
 
-		$document = new Simples_Document($this->data['source']) ;
+		$document = new \Simples\Document($this->data['source']) ;
 		$this->assertEquals('Jim', $document->firstname);
 		$this->assertEquals('music', $document->properties()->index) ;
 
@@ -64,51 +64,51 @@ class Simples_DocumentTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testToArray() {
-		$document = new Simples_Document($this->data['standard']) ;
+		$document = new \Simples\Document($this->data['standard']) ;
 		$res = $document->to('array') ;
 		$this->assertEquals('Jim', $res['firstname']) ;
 
-		$document = new Simples_Document($this->data['source']) ;
+		$document = new \Simples\Document($this->data['source']) ;
 		$res = $document->to('array') ;
 		$this->assertEquals('Jim', $res['_source']['firstname']) ;
 		$this->assertEquals('music', $res['_index']) ;
 
 		// Test source
-		$document = new Simples_Document($this->data['standard']) ;
+		$document = new \Simples\Document($this->data['standard']) ;
 		$res = $document->to('array', array('source' => true)) ;
 		$this->assertTrue(isset($res['_source'])) ;
 		$res = $document->to('array', array('source' => 'auto')) ;
 		$this->assertFalse(isset($res['_source'])) ;
 
-		$document = new Simples_Document($this->data['source']) ;
+		$document = new \Simples\Document($this->data['source']) ;
 		$res = $document->to('array', array('source' => false)) ;
 		$this->assertFalse(isset($res['_source'])) ;
 		$res = $document->to('array', array('source' => 'auto')) ;
 		$this->assertTrue(isset($res['_source'])) ;
 
 		// Force source
-		$document = new Simples_Document($this->data['standard'], array('source' => true)) ;
+		$document = new \Simples\Document($this->data['standard'], array('source' => true)) ;
 		$res = $document->to('array', array('source' => true)) ;
 		$this->assertTrue(isset($res['_firstname'])) ;
 		$res = $document->to('array', array('source' => false)) ;
 		$this->assertTrue(empty($res)) ;
 
-		$document = new Simples_Document($this->data['standard'], array('source' => false)) ;
+		$document = new \Simples\Document($this->data['standard'], array('source' => false)) ;
 		$res = $document->to('array', array('source' => true)) ;
 		$this->assertTrue(isset($res['_source']['firstname'])) ;
 
-		$document = new Simples_Document($this->data['source'], array('source' => true)) ;
+		$document = new \Simples\Document($this->data['source'], array('source' => true)) ;
 		$res = $document->to('array', array('source' => true)) ;
 		$this->assertTrue(isset($res['_source']['firstname'])) ;
 
-		$document = new Simples_Document($this->data['source'], array('source' => false)) ;
+		$document = new \Simples\Document($this->data['source'], array('source' => false)) ;
 		$res = $document->to('array', array('source' => true)) ;
 		$this->assertTrue(isset($res['_source']['_source']['firstname'])) ;
 	}
 
 	public function testClean() {
 		// Test clean
-		$document = new Simples_Document($this->data['standard'], array('cast' => array(
+		$document = new \Simples\Document($this->data['standard'], array('cast' => array(
 			'sub.integer' => 'integer',
 			'sub.string' => 'string'
 		))) ;

@@ -1,4 +1,7 @@
 <?php
+namespace Simples ;
+
+use \Simples\Document\Set ;
 
 /**
  * An ES document.
@@ -6,7 +9,7 @@
  * @author Sébastien Charrier <scharrier@gmail.com>
  * @package	Simples
  */
-class Simples_Document extends Simples_Base {
+class Document extends \Simples\Base {
 
 	/**
 	 * Document properties.
@@ -79,7 +82,7 @@ class Simples_Document extends Simples_Base {
 						$properties[$_key] = $value ;
 					}
 				}
-				$this->_properties = new Simples_Document($properties) ;
+				$this->_properties = new Document($properties) ;
 			} else {
 				$this->_data = $this->_import($data) ;
 			}
@@ -90,7 +93,7 @@ class Simples_Document extends Simples_Base {
 
 	/**
 	 * Import a data array  and transforms entities into Simples_Document or
-	 * Simples_Document_Set.
+	 * Set.
 	 *
 	 * @param  array  $data Data to import
 	 * @return array        Data ready to work on
@@ -107,10 +110,10 @@ class Simples_Document extends Simples_Base {
 				$this->_options($key, $options) ;
 			}
 			if (!is_scalar($value)) {
-				if (Simples_Document_Set::check($value)) {
-					$data[$key] = new Simples_Document_Set($value, array('source' => false) + $options) ;
+				if (Set::check($value)) {
+					$data[$key] = new Set($value, array('source' => false) + $options) ;
 				} elseif (is_array($value) && !is_numeric(key($value))) {
-					$data[$key] = new Simples_Document($value, array('source' => false) + $options) ;
+					$data[$key] = new Document($value, array('source' => false) + $options) ;
 				}
 			}
 		}
@@ -129,7 +132,7 @@ class Simples_Document extends Simples_Base {
 			if (!empty($options['cast'])) {
 				$this->_options($key, $options) ;
 			}
-			if ($value instanceof Simples_Base) {
+			if ($value instanceof \Simples\Base) {
 				$data[$key] = $value->to('array', array('source' => false) + $options) ;
 			}
 		}
@@ -321,10 +324,10 @@ class Simples_Document extends Simples_Base {
 				// We wanna force the type
 				settype($data[$key], $options['cast'][$_path]) ;
 			} else {
-				if ($value instanceof Simples_Base) {
+				if ($value instanceof \Simples\Base) {
 					//$this->_clean($value, $options, $_keys) ;
 				} elseif ((is_scalar($value) && !strlen($value)) || !isset($value)) {
-					if ($data instanceof Simples_Base) {
+					if ($data instanceof \Simples\Base) {
 						unset($data->{$key}) ;
 					} else {
 						unset($data[$key]) ;

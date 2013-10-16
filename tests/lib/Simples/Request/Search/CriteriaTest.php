@@ -1,7 +1,4 @@
 <?php
-
-require_once(dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR . 'bootstrap.php');
-
 class Simples_Request_Search_CriteriaTest extends PHPUnit_Framework_TestCase {
 
 	public function testNormalize() {
@@ -62,7 +59,7 @@ class Simples_Request_Search_CriteriaTest extends PHPUnit_Framework_TestCase {
 			'value' => array('value','other')
 		)) ;
 		$this->assertEquals('terms', $criteria->type());
-		
+
 		$criteria = new TestCriteriaQuery(array(
 			'in' => 'in',
 			'value' => 'value'
@@ -193,7 +190,7 @@ class Simples_Request_Search_CriteriaTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($expected, $res) ;
 		$criteria = new TestCriteria(array(
 			'field' => 'location',
-			'lat' => 1, 
+			'lat' => 1,
 			'lon' => 2,
 			'distance' => '10km'
 		), array('type' => 'geo_distance')) ;
@@ -202,10 +199,10 @@ class Simples_Request_Search_CriteriaTest extends PHPUnit_Framework_TestCase {
 	}
 }
 
-class TestCriteria extends Simples_Request_Search_Criteria {
+class TestCriteria extends \Simples\Request\Search\Criteria {
 
 }
 
-class TestCriteriaQuery extends Simples_Request_Search_Criteria_Query {
+class TestCriteriaQuery extends \Simples\Request\Search\Criteria\Query {
 
 }

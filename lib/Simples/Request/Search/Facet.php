@@ -1,95 +1,96 @@
 <?php
+namespace Simples\Request\Search ;
 
 /**
  * A facet definition
- * 
+ *
  * @author Sébastien Charrier <scharrier@gmail.com>
  * @package	Simples
  * @subpackage Request
  */
-class Simples_Request_Search_Facet extends Simples_Base {
-	
+class Facet extends \Simples\Base {
+
 	/**
 	 * Criteria type.
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $_type = '' ;
-	
+
 	/**
 	 * Default type.
-	 * 
+	 *
 	 * @var string
 	 */
 	protected $_defaultType = 'terms' ;
-	
+
 	/**
 	 * Facet normalized data.
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $_data = array() ;
-	
+
 	/**
 	 * Options .
-	 * 
+	 *
 	 * @var array
 	 */
 	protected $_options = array() ;
-	
+
 	/**
 	 * Facet filters.
-	 * 
+	 *
 	 * @var Simples_Request_Search_Builder_Filters
 	 */
 	protected $_filters ;
-	
+
 	/**
 	 * Fluid return.
-	 * 
+	 *
 	 * @var mixed
 	 */
 	protected $_fluid ;
-	
+
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param mixed		$definition		Facet definition. String or array.
 	 * @param array		$options		Array of options.
-	 * @param mixed		$fluid			Fluid object instance.	
+	 * @param mixed		$fluid			Fluid object instance.
 	 */
 	public function __construct($definition = null, array $options = null, $fluid = null) {
 		$this->_filters = new Simples_Request_Search_Builder_Filters() ;
-		
+
 		if (isset($definition) || isset($options)) {
 			$this->_data = $this->_normalize($definition, $options) ;
 		}
-		
+
 		if (isset($definition)) {
 			$this->_type = $this->_type($this->_data, $options) ;
 		}
-		
+
 		if (isset($options)) {
 			$this->_options = $options ;
 		}
-		
+
 		if (isset($fluid)) {
 			$this->_fluid = $fluid ;
 		}
 	}
-	
+
 	/**
 	 * Returns the current facet type.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function type() {
 		return $this->_type ;
 	}
-	
+
 	/**
 	 * Get the calculated facet name.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function name() {
@@ -101,12 +102,12 @@ class Simples_Request_Search_Facet extends Simples_Base {
 		}
 		return null ;
 	}
-	
+
 	/**
 	 * Returns all the normalized data, or only for a key if $key is given.
-	 * 
+	 *
 	 * @param string	$key	[optionnal]	Key to return.
-	 * @return mixed			Normalized data 
+	 * @return mixed			Normalized data
 	 */
 	public function get($key = null) {
 		if (isset($key)) {
@@ -114,12 +115,12 @@ class Simples_Request_Search_Facet extends Simples_Base {
 		}
 		return array_filter($this->_data) ;
 	}
-	
+
 	/**
 	 * Add multiple filters once.
-	 * 
+	 *
 	 * @param array $filters		Liste of filters.
-	 * @return mixed				Fluid instance. 
+	 * @return mixed				Fluid instance.
 	 */
 	public function filtered(array $filters = null, array $options = array()) {
 		if ($filters) {
@@ -133,23 +134,23 @@ class Simples_Request_Search_Facet extends Simples_Base {
 		}
 		return $this->_fluid() ;
 	}
-	
+
 	/**
 	 * Magic call : chain with subobjects.
-	 * 
+	 *
 	 * @param string	$name		Method name
 	 * @param array		$args		Arguments
-	 * @return \Simples_Request_Search 
+	 * @return \Simples_Request_Search
 	 */
 	public function __call($name, $args) {
 		call_user_func_array(array($this->_filters, $name), $args) ;
 		return $this->_fluid() ;
 	}
-	
+
 	/**
 	 * Returns this instance or object setted in fluid property.
-	 * 
-	 * @return \Simples_Request_Search_Facet 
+	 *
+	 * @return \Simples_Request_Search_Facet
 	 */
 	protected function _fluid() {
 		if (isset($this->_fluid)) {
@@ -157,27 +158,27 @@ class Simples_Request_Search_Facet extends Simples_Base {
 		}
 		return $this ;
 	}
-	
+
 	/**
 	 * Detect the facet type. Try to detect it if not explicitly defined.
-	 * 
+	 *
 	 * @param array		$definition		Criteria definition
 	 * @param array		$options		Criteria options
-	 * @return string					Type. 
+	 * @return string					Type.
 	 */
 	protected function _type(array $definition, array $options = null) {
 		if (isset($options['type'])) {
 			return $options['type'] ;
 		}
-		
+
 		return $this->_defaultType ;
 	}
-	
+
 	/**
 	 * Normalize $definition
-	 * 
+	 *
 	 * @param mixed		$definition		Criteria definition (string/array)
-	 * @return array					Normalized definition 
+	 * @return array					Normalized definition
 	 */
 	protected function _normalize($definition) {
 		if (is_string($definition)) {
@@ -196,12 +197,12 @@ class Simples_Request_Search_Facet extends Simples_Base {
 		}
 		return $definition ;
 	}
-	
+
 	/**
 	 * Normalize the search scope (fields/field/in).
-	 * 
+	 *
 	 * @param array		$definition		Facet definition
-	 * @return mixed					Scope (string or array) 
+	 * @return mixed					Scope (string or array)
 	 */
 	protected function _in($definition) {
 		if (isset($definition['in'])) {
@@ -220,19 +221,19 @@ class Simples_Request_Search_Facet extends Simples_Base {
 		}
 		return null ;
 	}
-	
+
 	/**
 	 * Prepare data for transformation.
-	 * 
+	 *
 	 * @return array
-	 * @throws Simples_Request_Exception 
+	 * @throws Simples_Request_Exception
 	 */
 	protected function _data(array $options = array()) {
 		$data = $this->_data ;
 		if (empty($data['in']) && empty($data['value_field'])) {
 			throw new Simples_Request_Exception('Facet error : no scope (keys "field","fields","value_field" and "in" are empty)') ;
 		}
-		
+
 		// Name
 		if (empty($data['name']) && !empty($data['in'])) {
 			$name = $data['in'] ;
@@ -242,7 +243,7 @@ class Simples_Request_Search_Facet extends Simples_Base {
 		} else {
 			throw new Simples_Request_Exception('Facet error : the facet\'s name cannot be determined') ;
 		}
-		
+
 		// Scope
                 if (isset($data['in'])) {
                     if (is_array($data['in'])) {
@@ -252,20 +253,20 @@ class Simples_Request_Search_Facet extends Simples_Base {
                     }
                     unset($data['in']) ;
                 }
-		
+
 		$return = array($this->type() => $data) ;
-		
+
 		// Filters
 		if (count($this->_filters)) {
 			$return['facet_filter'] = $this->_filters->to('array') ;
 		}
-		
-		return  array($name => $return ) ; 
+
+		return  array($name => $return ) ;
 	}
-	
+
 	/**
 	 * Test if a criteria is mergeable with the current criteria.
-	 * 
+	 *
 	 * @param Simples_Request_Search_Criteria $facet		Criteria to test.
 	 * @return boolean										Yes/no ?
 	 */
@@ -278,10 +279,10 @@ class Simples_Request_Search_Facet extends Simples_Base {
 		}
 		return true ;
 	}
-	
+
 	/**
-	 * Merge a criteria with current. 
-	 * 
+	 * Merge a criteria with current.
+	 *
 	 * @param Simples_Request_Search_Criteria $facet		Criteria to merge.
 	 * @return \Simples_Request_Search_Criteria				This instance (fluid interface).
 	 */
@@ -290,5 +291,5 @@ class Simples_Request_Search_Facet extends Simples_Base {
 		unset($facet) ;
 		$this->_type = $this->_type($this->_data, $this->_options) ;
 		return $this ;
-	}	
+	}
 }

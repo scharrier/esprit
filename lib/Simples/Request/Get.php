@@ -1,4 +1,5 @@
 <?php
+namespace Simples\Request ;
 
 /**
  * Get.
@@ -7,7 +8,7 @@
  * @package	Simples
  * @subpackage Request
  */
-class Simples_Request_Get extends Simples_Request {
+class Get extends \Simples\Request {
 
 	/**
 	 * Definition
@@ -97,6 +98,6 @@ class Simples_Request_Get extends Simples_Request {
 	 * @return \Simples_Response_Get
 	 */
 	protected function _response($data) {
-		return new Simples_Response_Get($data, parent::options()) ;
+		return new \Simples\Response\Get($data, parent::options()) ;
 	}
 }

@@ -1,4 +1,5 @@
 <?php
+namespace Simples\Request ;
 
 /**
  * Update.
@@ -9,7 +10,7 @@
  * @package	Simples
  * @subpackage Request
  */
-class Simples_Request_Update extends Simples_Request_Index {
+class Update extends Index {
 
 	/**
 	 * Bulk action.
