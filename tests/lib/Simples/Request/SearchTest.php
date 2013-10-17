@@ -1,13 +1,12 @@
 <?php
+namespace Simples\Request ;
 
-require_once(dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'bootstrap.php');
-
-class Simples_Request_SearchTest extends PHPUnit_Framework_TestCase {
+class SearchTest extends \PHPUnit_Framework_TestCase {
 
 	public $client ;
 
 	public function setUp() {
-		$this->client = new Simples_Transport_Http(array(
+		$this->client = new \Simples\Transport\Http(array(
 			'index' => 'twitter',
 			'type' => 'tweet'
 		));
@@ -110,25 +109,25 @@ class Simples_Request_SearchTest extends PHPUnit_Framework_TestCase {
 
 		// Break fluid calls
 		$request = $this->client->search() ;
-		$this->assertTrue($request->instance() instanceof Simples_Request_Search) ;
+		$this->assertTrue($request->instance() instanceof \Simples\Request\Search) ;
 
 		$request->query() ;
-		$this->assertTrue($request->instance() instanceof Simples_Request_Search_Builder_Query) ;
+		$this->assertTrue($request->instance() instanceof \Simples\Request\Search\Builder\Query) ;
 
 		$request->filter() ;
-		$this->assertTrue($request->instance() instanceof Simples_Request_Search_Builder_Filters) ;
+		$this->assertTrue($request->instance() instanceof \Simples\Request\Search\Builder\Filters) ;
 
 		$request->query() ;
-		$this->assertTrue($request->instance() instanceof Simples_Request_Search_Builder_Query) ;
+		$this->assertTrue($request->instance() instanceof \Simples\Request\Search\Builder\Query) ;
 
 		$request->query('test') ;
-		$this->assertTrue($request->instance() instanceof Simples_Request_Search_Criteria_Query) ;
+		$this->assertTrue($request->instance() instanceof \Simples\Request\Search\Criteria\Query) ;
 
 		$filter = $request->filter(array('value' => 'test', 'in' => 'my_field'))->instance() ;
-		$this->assertTrue($filter instanceof Simples_Request_Search_Criteria_Filter) ;
+		$this->assertTrue($filter instanceof \Simples\Request_Search_Criteria_Filter) ;
 
 		$filter2 = $request->filter(array('value' => 'other test', 'in' => 'my_field'))->instance() ;
-		$this->assertTrue($filter2 instanceof Simples_Request_Search_Criteria_Filter) ;
+		$this->assertTrue($filter2 instanceof \Simples\Request\Search\Criteria\Filter) ;
 		$this->assertNotEquals($filter->to('array'), $filter2->to('array')) ;
 	}
 
@@ -143,7 +142,7 @@ class Simples_Request_SearchTest extends PHPUnit_Framework_TestCase {
 				)
 			)
 		) ;
-		$this->assertTrue($request instanceof Simples_Request) ;
+		$this->assertTrue($request instanceof \Simples\Request) ;
 		$this->assertEquals($expected, $res) ;
 
 		// Complex
@@ -174,7 +173,7 @@ class Simples_Request_SearchTest extends PHPUnit_Framework_TestCase {
 		$res = $request->to('array') ;
 		$expected = array(
 			'query' => array(
-				'match_all' => new stdClass()
+				'match_all' => new \stdClass()
 			),
 			'filter' => array(
 				'term' => array(
@@ -182,7 +181,7 @@ class Simples_Request_SearchTest extends PHPUnit_Framework_TestCase {
 				)
 			)
 		) ;
-		$this->assertTrue($request instanceof Simples_Request) ;
+		$this->assertTrue($request instanceof \Simples\Request) ;
 		$this->assertEquals($expected, $res) ;
 
 		// Test other filter type
@@ -196,7 +195,7 @@ class Simples_Request_SearchTest extends PHPUnit_Framework_TestCase {
 		$res = $request->to('array');
 		$expected = array(
 			'query' => array(
-				'match_all' => new stdClass()
+				'match_all' => new \stdClass()
 			),
 			'filter' => array(
 				'bool' => array(
@@ -216,7 +215,7 @@ class Simples_Request_SearchTest extends PHPUnit_Framework_TestCase {
 		$res = $request->to('array') ;
 		$expected = array(
 			'query' => array(
-				'match_all' => new stdClass()
+				'match_all' => new \stdClass()
 			),
 			'facets' => array(
 				'username' => array(
@@ -236,7 +235,7 @@ class Simples_Request_SearchTest extends PHPUnit_Framework_TestCase {
 
 		$expected = array(
 			'query' => array(
-				'match_all' => new stdClass()
+				'match_all' => new \stdClass()
 			),
 			'facets' => array(
 				'age' => array(

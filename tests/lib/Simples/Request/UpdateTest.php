@@ -1,11 +1,10 @@
 <?php
+namespace Simples\Test\Request ;
 
-require_once(dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'bootstrap.php');
-
-class Simples_Request_UpdateTest extends PHPUnit_Framework_TestCase {
+class Update extends \PHPUnit_Framework_TestCase {
 
 	public function setUp() {
-		$this->client = new Simples_Transport_Http(array(
+		$this->client = new \Simples\Transport\Http(array(
 				'index' => 'twitter',
 				'type' => 'tweet',
 				'log' => true
@@ -27,7 +26,7 @@ class Simples_Request_UpdateTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('scharrier', $this->client->get(1)->execute()->_source->fullname) ;
 
 		// From a document
-		$doc = new Simples_Document(array(
+		$doc = new\Simples\Document(array(
 			'id' => 1,
 			'fullname' => 'Sébastien Charrier'
 		)) ;

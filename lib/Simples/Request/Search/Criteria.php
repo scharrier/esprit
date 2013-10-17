@@ -187,7 +187,7 @@ abstract class Criteria extends \Simples\Base {
 		$data = $this->get() ;
 
 		if (!isset($data['in']) || !isset($data['value'])) {
-			throw new Simples_Request_Exception('Key "in" or "value" empty', $data) ;
+			throw new \Simples\Request\Exception('Key "in" or "value" empty', $data) ;
 		}
 
 		$in = $data['in'] ;
@@ -230,7 +230,7 @@ abstract class Criteria extends \Simples\Base {
 		$data = $this->get() ;
 
 		if (!isset($data['in']) || !isset($data['value'])) {
-			throw new Simples_Request_Exception('Key "in" or "value" empty', $data) ;
+			throw new \Simples\Request\Exception('Key "in" or "value" empty', $data) ;
 		}
 
 		$in = $data['in'] ;
@@ -272,7 +272,7 @@ abstract class Criteria extends \Simples\Base {
 		$data = $this->get() ;
 
 		if (!isset($data['in'])) {
-			throw new Simples_Request_Exception('Key "in" is empty', $data) ;
+			throw new \Simples\Request\Exception('Key "in" is empty', $data) ;
 		}
 
 		$in = $data['in'] ;
@@ -306,7 +306,7 @@ abstract class Criteria extends \Simples\Base {
 		$data = $this->get() ;
 
 		if (!isset($data['value'])) {
-			throw new Simples_Request_Exception('Key "value" is empty', $data) ;
+			throw new \Simples\Request\Exception('Key "value" is empty', $data) ;
 		}
 
 		$value = $data['value'] ;
@@ -331,7 +331,7 @@ abstract class Criteria extends \Simples\Base {
 		$data = $this->get() ;
 
 		if (!isset($data['in'])) {
-			throw new Simples_Request_Exception('Key "in" is empty', $data) ;
+			throw new \Simples\Request\Exception('Key "in" is empty', $data) ;
 		}
 
 		$in = $data['in'] ;
@@ -377,7 +377,7 @@ abstract class Criteria extends \Simples\Base {
 		$data = $this->get() ;
 
 		if (!isset($data['in'])) {
-			throw new Simples_Request_Exception('Key "in" empty', $data) ;
+			throw new \Simples\Request\Exception('Key "in" empty', $data) ;
 		}
 
 		$in = $data['in'] ;
@@ -419,7 +419,7 @@ abstract class Criteria extends \Simples\Base {
 		$data = $this->get() ;
 
 		if (!isset($data['in'])) {
-			throw new Simples_Request_Exception('Key "in" is empty', $data) ;
+			throw new \Simples\Request\Exception('Key "in" is empty', $data) ;
 		}
 
 		$in = $data['in'] ;
@@ -434,7 +434,7 @@ abstract class Criteria extends \Simples\Base {
 		unset($data['in']) ;
 
 		if (empty($values)) {
-			throw new Simples_Request_Exception('Keys "values","lat","lon" are empty', $data) ;
+			throw new \Simples\Request\Exception('Keys "values","lat","lon" are empty', $data) ;
 		}
 
 
@@ -448,10 +448,10 @@ abstract class Criteria extends \Simples\Base {
 	/**
 	 * Test if a criteria is mergeable with the current criteria.
 	 *
-	 * @param Simples_Request_Search_Criteria $criteria		Criteria to test.
+	 * @param \Simples\Request_Search_Criteria $criteria		Criteria to test.
 	 * @return boolean										Yes/no ?
 	 */
-	public function mergeable(Simples_Request_Search_Criteria $criteria) {
+	public function mergeable(\Simples\Request\Search\Criteria $criteria) {
 		$data =	$criteria->get() ;
 		foreach($data as $key => $value) {
 			if (isset($this->_data[$key])) {
@@ -470,10 +470,10 @@ abstract class Criteria extends \Simples\Base {
 	/**
 	 * Merge a criteria with current.
 	 *
-	 * @param Simples_Request_Search_Criteria $criteria		Criteria to merge.
-	 * @return \Simples_Request_Search_Criteria				This instance (fluid interface).
+	 * @param \Simples\Request_Search_Criteria $criteria		Criteria to merge.
+	 * @return \\Simples\Request_Search_Criteria				This instance (fluid interface).
 	 */
-	public function merge(Simples_Request_Search_Criteria $criteria) {
+	public function merge(\Simples\Request\Search\Criteria $criteria) {
 		$this->_data = array_merge($this->_data, $criteria->get()) ;
 		unset($criteria) ;
 		return $this ;

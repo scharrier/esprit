@@ -25,7 +25,7 @@ class Facets extends \Simples\Request\Search\Builder {
 	 * @return mixed				Current query instance or current request instance (fluid calls)
 	 */
 	public function add($definition, array $options = array()) {
-		$facet = new Simples_Request_Search_Facet($definition, $options, $this->_fluid()) ;
+		$facet = new \Simples\Request\Search\Facet($definition, $options, $this->_fluid()) ;
 		if (count($this->_facets)) {
 			$last = $this->_last() ;
 			if ($last->mergeable($facet)) {
@@ -51,7 +51,7 @@ class Facets extends \Simples\Request\Search\Builder {
 	 *
 	 * @param string	$name		Method name
 	 * @param array		$args		Arguments
-	 * @return \Simples_Request_Search
+	 * @return \\Simples\Request_Search
 	 */
 	public function __call($name, $args) {
 		call_user_func_array(array($this->_last(), $name), $args) ;

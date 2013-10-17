@@ -30,7 +30,7 @@ class DeleteType extends \Simples\Request {
 	 * @param array		$options			Request options
 	 * @param Simples_Transport $transport	Transport client
 	 */
-	public function __construct($body = null, $options = null, Simples_Transport $transport = null) {
+	public function __construct($body = null, $options = null, \Simples\Transport $transport = null) {
 		if (isset($body['type'])) {
 			$options['type'] = $body['type'] ;
 			unset($body['type']) ;
@@ -43,11 +43,11 @@ class DeleteType extends \Simples\Request {
 	 *
 	 * @param mixed	 $body		Setter mode.
 	 * @return array			Getter mode : the body.
-	 * @throws Simples_Request_Exception
+	 * @throws \Simples\Request_Exception
 	 */
 	public function body($body = null) {
 		if (!isset($body) && !isset($this->_options['type'])) {
-			throw new Simples_Request_Exception('Empty key "type" : you should specify the type name !') ;
+			throw new \Simples\Request\Exception('Empty key "type" : you should specify the type name !') ;
 		}
 		return parent::body($body) ;
 	}

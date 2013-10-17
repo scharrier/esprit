@@ -13,7 +13,7 @@ abstract class Builder extends \Simples\Base implements \Countable {
 	/**
 	 * Request dependency.
 	 *
-	 * @var Simples_Request_Search
+	 * @var \Simples\Request_Search
 	 */
 	protected $_request ;
 
@@ -21,9 +21,9 @@ abstract class Builder extends \Simples\Base implements \Countable {
 	 * Constructor.
 	 *
 	 * @param mixed						$query		Query definition (string/array)
-	 * @param Simples_Request_Search	$request	Request calling this query builder.
+	 * @param \Simples\Request_Search	$request	Request calling this query builder.
 	 */
-	public function __construct(Simples_Request_Search $request = null) {
+	public function __construct(\Simples\Request_Search $request = null) {
 		if (isset($request)) {
 			$this->_request = $request ;
 		}
@@ -32,7 +32,7 @@ abstract class Builder extends \Simples\Base implements \Countable {
 	/**
 	 * Default instance return : $this. Overriden in most builders.
 	 *
-	 * @return Simples_Request_Search_Builder this builder
+	 * @return \Simples\Request_Search_Builder this builder
 	 */
 	public function instance() {
 		return $this ;

@@ -10,7 +10,7 @@ namespace Simples ;
  * @author Sébastien Charrier <scharrier@gmail.com>
  * @package	Simples
  */
-abstract class Transport extends Base {
+abstract class Transport extends \Simples\Base {
 
 	protected $_factory ;
 
@@ -44,7 +44,7 @@ abstract class Transport extends Base {
 	 *
 	 * @param array $config		[optionnal] Connection configuration.
 	 */
-	public function __construct(array $config = null, Simples_Factory $factory = null) {
+	public function __construct(array $config = null,\Simples\Factory $factory = null) {
 		if (isset($config)) {
 			$this->config($config) ;
 		}
@@ -92,7 +92,7 @@ abstract class Transport extends Base {
 	/**
 	 * Returns the current server status.
 	 *
-	 * @return Simples_Request_Status
+	 * @return \Simples\Request_Status
 	 */
 	public function status() {
 		$args = func_get_args() ;
@@ -102,7 +102,7 @@ abstract class Transport extends Base {
 	/**
 	 * Returns stats
 	 *
-	 * @return Simples_Request_Stats
+	 * @return \Simples\Request_Stats
 	 */
 	public function stats() {
 		$args = func_get_args() ;
@@ -112,7 +112,7 @@ abstract class Transport extends Base {
 	/**
 	 * Index an object
 	 *
-	 * @return Simples_Request_Index
+	 * @return \Simples\Request\Index
 	 */
 	public function index() {
 		$args = func_get_args() ;
@@ -122,7 +122,7 @@ abstract class Transport extends Base {
 	/**
 	 * Get an object from its id
 	 *
-	 * @return Simples_Request_Get
+	 * @return \Simples\Request_Get
 	 */
 	public function get() {
 		$args = func_get_args() ;
@@ -132,7 +132,7 @@ abstract class Transport extends Base {
 	/**
 	 * Delete something : an object, a type or an index
 	 *
-	 * @return Simples_Request_Delete
+	 * @return \Simples\Request_Delete
 	 */
 	public function delete() {
 		$args = func_get_args() ;
@@ -142,7 +142,7 @@ abstract class Transport extends Base {
 	/**
 	 * Search API
 	 *
-	 * @return Simples_Request_Search
+	 * @return \Simples\Request_Search
 	 */
 	public function search() {
 		$args = func_get_args() ;
@@ -192,7 +192,7 @@ abstract class Transport extends Base {
 	 *
 	 * @param string	$request	Request alias
 	 * @param array		$params		Params
-	 * @return \Simples_Request
+	 * @return \\Simples\Request
 	 */
 	public function __call($request, $params) {
 		$path = 'Request.' . $request ;

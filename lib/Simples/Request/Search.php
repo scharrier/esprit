@@ -71,21 +71,21 @@ class Search extends \Simples\Request {
 	/**
 	 * Query builder.
 	 *
-	 * @var Simples_Request_Search_Builder_Query
+	 * @var \Simples\Request\Search\Builder\Query
 	 */
 	protected $_query ;
 
 	/**
 	 * Filter builder.
 	 *
-	 * @var Simples_Request_Search_Builder_Filter
+	 * @var \Simples\Request_Search_Builder_Filter
 	 */
 	protected $_filters ;
 
 	/**
 	 * Facet builder.
 	 *
-	 * @var Simples_Request_Search_Builder_Facet
+	 * @var \Simples\Request_Search_Builder_Facet
 	 */
 	protected $_facet ;
 
@@ -97,7 +97,7 @@ class Search extends \Simples\Request {
 	protected $_options = array(
 		'index' => null,
 		'type' => null,
-		'highlight' => Simples_Request_Search::HIGHLIGHT_DO_NOTHING,
+		'highlight' => \Simples\Request\Search::HIGHLIGHT_DO_NOTHING,
 		'fluid' => true
 	);
 
@@ -109,11 +109,11 @@ class Search extends \Simples\Request {
 	 * @param array		$options			Array of options
 	 * @param Simples_Transport $transport	ES client instance
 	 */
-	public function __construct($body = null, $options = null, Simples_Transport $transport = null) {
+	public function __construct($body = null, $options = null, \Simples\Transport $transport = null) {
 		// Builders
-		$this->_query = new Simples_Request_Search_Builder_Query(null, $this) ;
-		$this->_filters = new Simples_Request_Search_Builder_Filters(null, $this) ;
-		$this->_facets = new Simples_Request_Search_Builder_Facets(null, $this) ;
+		$this->_query = new \Simples\Request\Search\Builder\Query(null, $this) ;
+		$this->_filters = new \Simples\Request\Search\Builder\Filters(null, $this) ;
+		$this->_facets = new \Simples\Request\Search\Builder\Facets(null, $this) ;
 
 		// Simple query_string search : give it to builder.
 		if (isset($body['query']) && is_string($body['query'])) {
@@ -160,7 +160,7 @@ class Search extends \Simples\Request {
 			$highlight = array() ;
 			foreach($body['highlight']['fields'] as $key => $value) {
 				if (is_numeric($key)) {
-					$highlight[$value] = new stdClass() ;
+					$highlight[$value] = new \stdClass() ;
 				} else {
 					$highlight[$key] = $value ;
 				}
@@ -210,7 +210,7 @@ class Search extends \Simples\Request {
 	 * Query mode switcher.
 	 *
 	 * @param mixed		$query			Setter : Query definition.
-	 * @return \Simples_Request_Search	This instance
+	 * @return \\Simples\Request_Search	This instance
 	 */
 	public function query($query = null, $options = array()) {
 		// Save current subobject
@@ -228,7 +228,7 @@ class Search extends \Simples\Request {
 	 * Filter mode switcher.
 	 *
 	 * @param mixed		$filter			Setter : Query definition.
-	 * @return \Simples_Request_Search	This instance
+	 * @return \\Simples\Request_Search	This instance
 	 */
 	public function filter($filter = null, $options = array()) {
 		// Save current subobject
@@ -245,7 +245,7 @@ class Search extends \Simples\Request {
 	 * Add a facet.
 	 *
 	 * @param mixed		$facet			Setter : Query definition.
-	 * @return \Simples_Request_Search	This instance
+	 * @return \\Simples\Request_Search	This instance
 	 */
 	public function facet($facet =null, $options = array()) {
 		// Save current subobject
@@ -267,7 +267,7 @@ class Search extends \Simples\Request {
 	 * ));
 	 *
 	 * @param array $queries			List of criteries. Field name in key, search in value.
-	 * @return \Simples_Request_Search	This instance.
+	 * @return \\Simples\Request_Search	This instance.
 	 */
 	public function queries(array $queries) {
 		// Save current subobject
@@ -288,7 +288,7 @@ class Search extends \Simples\Request {
 	 * ));
 	 *
 	 * @param array $filters			List of criteries. Field name in key, search in value.
-	 * @return \Simples_Request_Search	This instance.
+	 * @return \\Simples\Request_Search	This instance.
 	 */
 	public function filters(array $filters) {
 		// Save current subobject
@@ -309,7 +309,7 @@ class Search extends \Simples\Request {
 	 * )) ;
 	 *
 	 * @param array $facets				Facets definitions.
-	 * @return \Simples_Request_Search
+	 * @return \\Simples\Request_Search
 	 */
 	public function facets(array $facets) {
 		// Save current subobject
@@ -332,7 +332,7 @@ class Search extends \Simples\Request {
 	 * Set the from param.
 	 *
 	 * @param int	$from		From value
-	 * @return \Simples_Request_Search
+	 * @return \\Simples\Request_Search
 	 */
 	public function from($from) {
 		$this->_body['from'] = $from ;
@@ -343,7 +343,7 @@ class Search extends \Simples\Request {
 	 * Set the size.
 	 *
 	 * @param int	$size		Size value
-	 * @return \Simples_Request_Search
+	 * @return \\Simples\Request_Search
 	 */
 	public function size($size) {
 		$this->_body['size'] = $size;
@@ -354,7 +354,7 @@ class Search extends \Simples\Request {
 	 * Set the sort param.
 	 *
 	 * @param string	$sort	Sort value
-	 * @return \Simples_Request_Search
+	 * @return \\Simples\Request_Search
 	 */
 	public function sort($sort) {
 		$this->_body['sort'] = $sort;
@@ -365,7 +365,7 @@ class Search extends \Simples\Request {
 	 * Set the highlight param.
 	 *
 	 * @param string	$sort	Sort value
-	 * @return \Simples_Request_Search
+	 * @return \\Simples\Request_Search
 	 */
 	public function highlight($highlight) {
 		$this->_body['highlight'] = $highlight;
@@ -376,7 +376,7 @@ class Search extends \Simples\Request {
 	 * Set the script_fields param.
 	 *
 	 * @param string	$fields	script_fields value
-	 * @return \Simples_Request_Search
+	 * @return \\Simples\Request_Search
 	 */
 	public function scriptFields($fields) {
 		$this->_body['script_fields'] = $fields;
@@ -387,7 +387,7 @@ class Search extends \Simples\Request {
 	 * Set the explain param.
 	 *
 	 * @param bool	$explain	Explain value
-	 * @return \Simples_Request_Search
+	 * @return \\Simples\Request_Search
 	 */
 	public function explain($explain) {
 		$this->_body['explain'] = $explain;
@@ -398,7 +398,7 @@ class Search extends \Simples\Request {
 	 * Set the min_score param.
 	 *
 	 * @param string	$sort	Sort value
-	 * @return \Simples_Request_Search
+	 * @return \\Simples\Request_Search
 	 */
 	public function minScore($min_score) {
 		$this->_body['min_score'] = $min_score;
@@ -409,7 +409,7 @@ class Search extends \Simples\Request {
 	 * Set the fields param.
 	 *
 	 * @param string	$sort	Sort value
-	 * @return \Simples_Request_Search
+	 * @return \\Simples\Request_Search
 	 */
 	public function fields($fields) {
 		$this->_body['fields'] = $fields;
@@ -453,7 +453,7 @@ class Search extends \Simples\Request {
 	 *
 	 * @param string	$name		Method name
 	 * @param array		$args		Arguments
-	 * @return \Simples_Request_Search
+	 * @return \\Simples\Request_Search
 	 */
 	public function __call($name, $args) {
 		$object = '_' . $this->_current ;
@@ -465,9 +465,9 @@ class Search extends \Simples\Request {
 	 * Specific response object.
 	 *
 	 * @param array		$data		Search request results.
-	 * @return \Simples_Response_Search
+	 * @return \\Simples\Response_Search
 	 */
 	protected function _response($data) {
-		return new Simples_Response_Search($data, parent::options()) ;
+		return new \Simples\Response\Search($data, parent::options()) ;
 	}
 }

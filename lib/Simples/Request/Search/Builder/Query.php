@@ -14,9 +14,9 @@ class Query extends Criteria {
 	 * Returns a new Query criteria.
 	 *
 	 * @param type $criteria		Criteria definition.
-	 * @return \Simples_Request_Search_Criteria_Filter
+	 * @return \\Simples\Request_Search_Criteria_Filter
 	 */
 	protected function _criteria($criteria, array $options = array()) {
-		return new self($criteria, $options) ;
+		return new \Simples\Request\Search\Criteria\Query($criteria, $options) ;
 	}
 }

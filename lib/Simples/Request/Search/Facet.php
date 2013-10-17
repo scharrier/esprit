@@ -41,7 +41,7 @@ class Facet extends \Simples\Base {
 	/**
 	 * Facet filters.
 	 *
-	 * @var Simples_Request_Search_Builder_Filters
+	 * @var \Simples\Request_Search_Builder_Filters
 	 */
 	protected $_filters ;
 
@@ -60,7 +60,7 @@ class Facet extends \Simples\Base {
 	 * @param mixed		$fluid			Fluid object instance.
 	 */
 	public function __construct($definition = null, array $options = null, $fluid = null) {
-		$this->_filters = new Simples_Request_Search_Builder_Filters() ;
+		$this->_filters = new \Simples\Request\Search\Builder\Filters() ;
 
 		if (isset($definition) || isset($options)) {
 			$this->_data = $this->_normalize($definition, $options) ;
@@ -140,7 +140,7 @@ class Facet extends \Simples\Base {
 	 *
 	 * @param string	$name		Method name
 	 * @param array		$args		Arguments
-	 * @return \Simples_Request_Search
+	 * @return \\Simples\Request_Search
 	 */
 	public function __call($name, $args) {
 		call_user_func_array(array($this->_filters, $name), $args) ;
@@ -150,7 +150,7 @@ class Facet extends \Simples\Base {
 	/**
 	 * Returns this instance or object setted in fluid property.
 	 *
-	 * @return \Simples_Request_Search_Facet
+	 * @return \\Simples\Request_Search_Facet
 	 */
 	protected function _fluid() {
 		if (isset($this->_fluid)) {
@@ -184,16 +184,16 @@ class Facet extends \Simples\Base {
 		if (is_string($definition)) {
 			$definition = array('in' => $definition) ;
 		} else {
-                        $in = $this->_in($definition) ;
-                        if (isset($in)) {
-                            $definition['in'] = $in ;
-                            if (isset($definition['field'])) {
-                                    unset($definition['field']) ;
-                            }
-                            if (isset($definition['fields'])) {
-                                    unset($definition['fields']) ;
-                            }
-                        }
+            $in = $this->_in($definition) ;
+            if (isset($in)) {
+                $definition['in'] = $in ;
+                if (isset($definition['field'])) {
+                        unset($definition['field']) ;
+                }
+                if (isset($definition['fields'])) {
+                        unset($definition['fields']) ;
+                }
+            }
 		}
 		return $definition ;
 	}
@@ -226,12 +226,12 @@ class Facet extends \Simples\Base {
 	 * Prepare data for transformation.
 	 *
 	 * @return array
-	 * @throws Simples_Request_Exception
+	 * @throws \Simples\Request_Exception
 	 */
 	protected function _data(array $options = array()) {
 		$data = $this->_data ;
 		if (empty($data['in']) && empty($data['value_field'])) {
-			throw new Simples_Request_Exception('Facet error : no scope (keys "field","fields","value_field" and "in" are empty)') ;
+			throw new \Simples\Request\Exception('Facet error : no scope (keys "field","fields","value_field" and "in" are empty)') ;
 		}
 
 		// Name
@@ -241,7 +241,7 @@ class Facet extends \Simples\Base {
 			$name = $data['name'] ;
 			unset($data['name']) ;
 		} else {
-			throw new Simples_Request_Exception('Facet error : the facet\'s name cannot be determined') ;
+			throw new \Simples\Request\Exception('Facet error : the facet\'s name cannot be determined') ;
 		}
 
 		// Scope
@@ -267,10 +267,10 @@ class Facet extends \Simples\Base {
 	/**
 	 * Test if a criteria is mergeable with the current criteria.
 	 *
-	 * @param Simples_Request_Search_Criteria $facet		Criteria to test.
+	 * @param \Simples\Request_Search_Criteria $facet		Criteria to test.
 	 * @return boolean										Yes/no ?
 	 */
-	public function mergeable(Simples_Request_Search_Facet $facet) {
+	public function mergeable(\Simples\Request\Search\Facet $facet) {
 		$data =	$facet->get() ;
 		foreach($data as $key => $value) {
 			if (isset($this->_data[$key])) {
@@ -283,10 +283,10 @@ class Facet extends \Simples\Base {
 	/**
 	 * Merge a criteria with current.
 	 *
-	 * @param Simples_Request_Search_Criteria $facet		Criteria to merge.
-	 * @return \Simples_Request_Search_Criteria				This instance (fluid interface).
+	 * @param \Simples\Request_Search_Criteria $facet		Criteria to merge.
+	 * @return \\Simples\Request_Search_Criteria				This instance (fluid interface).
 	 */
-	public function merge(Simples_Request_Search_Facet $facet) {
+	public function merge(\Simples\Request\Search\Facet $facet) {
 		$this->_data = array_merge($this->_data, $facet->get()) ;
 		unset($facet) ;
 		$this->_type = $this->_type($this->_data, $this->_options) ;

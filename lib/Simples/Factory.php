@@ -7,7 +7,7 @@ namespace Simples ;
  * @author Sébastien Charrier <scharrier@gmail.com>
  * @package	Simples
  */
-class Factory extends Base {
+class Factory extends \Simples\Base {
 
 	/**
 	 * Current mapping.
@@ -45,7 +45,7 @@ class Factory extends Base {
 		'Response' => array(
 		),
 		'Transport' => array(
-			'http' => 'Simples_Transport_Http'
+			'http' => '\Simples\Transport\Http'
 		)
 	) ;
 
@@ -124,7 +124,7 @@ class Factory extends Base {
 			return $this->_mapping ;
 		}
 		if (!isset($this->_mapping[$path])) {
-			throw new Simples\Factory\Exception('Bad namespace "' . $path . '"') ;
+			throw new \Simples\Factory\Exception('Bad namespace "' . $path . '"') ;
 		}
 		return $this->_mapping[$path] ;
 	}
@@ -143,7 +143,7 @@ class Factory extends Base {
 	 * Generates a new request.
 	 *
 	 * @param string	$alias		Request name
-	 * @return \Simples_Request
+	 * @return \\Simples\Request
 	 */
 	public function request($alias) {
 		$params = func_get_args() ;
@@ -155,7 +155,7 @@ class Factory extends Base {
 	 * Generates a new response.
 	 *
 	 * @param string	$alias		Response name
-	 * @return \Simples_Response
+	 * @return \\Simples\Response
 	 */
 	public function response($alias = null) {
 		$params = func_get_args() ;

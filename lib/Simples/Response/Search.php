@@ -1,4 +1,8 @@
 <?php
+namespace Simples\Response ;
+
+use \Simples\Document ;
+use \Simples\Document\Set ;
 
 /**
  * Specific search response.
@@ -7,7 +11,7 @@
  * @package	Simples
  * @subpackage Response
  */
-class Simples_Response_Search extends Simples_Response {
+class Search extends \Simples\Response {
 
 	/**
 	 * Response config
@@ -15,7 +19,7 @@ class Simples_Response_Search extends Simples_Response {
 	 * @var array
 	 */
 	protected $_config = array(
-		'highlight' => Simples_Request_Search::HIGHLIGHT_DO_NOTHING
+		'highlight' => \Simples\Request\Search::HIGHLIGHT_DO_NOTHING
 	) ;
 
 	/**
@@ -27,7 +31,7 @@ class Simples_Response_Search extends Simples_Response {
 	public function __construct(array $data, array $config = null) {
 		parent::__construct($data, $config);
 
-		if ($this->config('highlight') === Simples_Request_Search::HIGHLIGHT_REPLACE)  {
+		if ($this->config('highlight') === \Simples\Request\Search::HIGHLIGHT_REPLACE)  {
 			$this->set($this->_replaceHighlights($data)) ;
 		}
 	}
@@ -40,7 +44,7 @@ class Simples_Response_Search extends Simples_Response {
 	 */
 	public function hits() {
 		if (isset($this->_data['hits']['hits'])) {
-			return new Simples_Document_Set($this->_data['hits']['hits'], array('source' => true)) ;
+			return new Set($this->_data['hits']['hits'], array('source' => true)) ;
 		}
 		return null ;
 	}
@@ -52,7 +56,7 @@ class Simples_Response_Search extends Simples_Response {
 	 */
 	public function facets() {
 		if (isset($this->_data['facets'])) {
-			return new Simples_Document($this->_data['facets']) ;
+			return new Document($this->_data['facets']) ;
 		}
 	}
 

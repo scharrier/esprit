@@ -1,11 +1,10 @@
 <?php
+namespace Simples\Test\Response ;
 
-require_once(dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'bootstrap.php');
+class Search extends \PHPUnit_Framework_TestCase {
 
-class Simples_Response_SearchTest extends PHPUnit_Framework_TestCase {
-	
 	public function testHighlight() {
-		$response = new Simples_Response_Search(array(
+		$response = new \Simples\Response\Search(array(
 			'hits' => array(
 				'hits' => array(
 					array(
@@ -20,12 +19,12 @@ class Simples_Response_SearchTest extends PHPUnit_Framework_TestCase {
 					)
 				)
 			)
-		), array('highlight' => Simples_Request_Search::HIGHLIGHT_REPLACE)) ;
-		
+		), array('highlight' => \Simples\Request\Search::HIGHLIGHT_REPLACE)) ;
+
 		$this->assertEquals('<em>Sebastien<em>', $response->hits->hits->{0}->_source->Utilisateur->name) ;
-		
+
 		// Special ES case : highlight returned as an array
-		$response = new Simples_Response_Search(array(
+		$response = new \Simples\Response\Search(array(
 			'hits' => array(
 				'hits' => array(
 					array(
@@ -40,12 +39,12 @@ class Simples_Response_SearchTest extends PHPUnit_Framework_TestCase {
 					)
 				)
 			)
-		), array('highlight' => Simples_Request_Search::HIGHLIGHT_REPLACE)) ;
-		
+		), array('highlight' => \Simples\Request\Search::HIGHLIGHT_REPLACE)) ;
+
 		$this->assertEquals('<em>Sebastien<em>', $response->hits->hits->{0}->_source->Utilisateur->name) ;
-		
+
 		// special case for subarray formated data
-		$response = new Simples_Response_Search(array(
+		$response = new \Simples\Response\Search(array(
 			'hits' => array(
 				'hits' => array(
 					array(
@@ -62,14 +61,14 @@ class Simples_Response_SearchTest extends PHPUnit_Framework_TestCase {
 					)
 				)
 			)
-		), array('highlight' => Simples_Request_Search::HIGHLIGHT_REPLACE)) ;
-		
+		), array('highlight' => \Simples\Request\Search::HIGHLIGHT_REPLACE)) ;
+
 		$this->assertEquals('<em>Sebastien<em>', $response->hits->hits->{0}->_source->Utilisateur->{0}->name->{0}) ;
-		
+
 	}
-	
+
 	public function testHits() {
-		$response = new Simples_Response_Search(array(
+		$response = new \Simples\Response\Search(array(
 			'hits' => array(
 				'hits' => array(
 					array(
@@ -89,14 +88,14 @@ class Simples_Response_SearchTest extends PHPUnit_Framework_TestCase {
 				)
 			)
 		));
-		
+
 		$this->assertEquals(2, count($response->hits())) ;
-		
+
 		$test = array() ;
 		foreach($response->hits() as $document) {
 			$test[] = $document->Utilisateur->name ;
 		}
-		
+
 		$expected = array('Jim Morrison', 'Ray Manzareck') ;
 		$this->assertEquals($expected, $test) ;
 	}

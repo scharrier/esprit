@@ -1,28 +1,27 @@
 <?php
+namespace Simples\Response ;
 
-require_once(dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'bootstrap.php');
+class BulkTest extends \PHPUnit_Framework_TestCase {
 
-class Simples_Response_BulkTest extends PHPUnit_Framework_TestCase {
-	
 	/**
-	 * Good response. 
+	 * Good response.
 	 */
 	public function testNoException() {
-		$response = new Simples_Response_Bulk(array()) ;
-		$this->assertTrue($response instanceof Simples_Response_Bulk) ;
+		$response = new \Simples\Response\Bulk(array()) ;
+		$this->assertTrue($response instanceof \Simples\Response\Bulk) ;
 	}
-	
+
 	/**
-	 *@expectedException Simples_Response_Exception
+	 * @expectedException \Simples\Response\Exception
 	 */
 	public function testException() {
-		$response = new Simples_Response_Bulk(array(
+		$response = new \Simples\Response\Bulk(array(
 			'took' => '1',
-			'items' => array(					
+			'items' => array(
 				'index' => array(
 					array('error' => 'This is an error. Oops.')
 				)
 			)
 		)) ;
-	} 
+	}
 }

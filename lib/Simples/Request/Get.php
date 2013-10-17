@@ -75,7 +75,7 @@ class Get extends \Simples\Request {
 	 */
 	public function path() {
 		if ($this->multiple()) {
-			$path = new Simples_Path('_mget') ;
+			$path = new \Simples\Path('_mget') ;
 			if ($this->definition()->inject('params')) {
 				$path->params($this->params()) ;
 			}
@@ -95,7 +95,7 @@ class Get extends \Simples\Request {
 	 * Specific response object.
 	 *
 	 * @param array		$data		Get request results.
-	 * @return \Simples_Response_Get
+	 * @return \\Simples\Response_Get
 	 */
 	protected function _response($data) {
 		return new \Simples\Response\Get($data, parent::options()) ;

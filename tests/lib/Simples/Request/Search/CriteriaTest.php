@@ -1,5 +1,7 @@
 <?php
-class Simples_Request_Search_CriteriaTest extends PHPUnit_Framework_TestCase {
+namespace Simples\Request\Search ;
+
+class CriteriaTest extends \PHPUnit_Framework_TestCase {
 
 	public function testNormalize() {
 		$criteria = new TestCriteria(array(

@@ -167,7 +167,7 @@ class Index extends \Simples\Request {
 
 				$doc_content = $this->_jsonDoc($document, array('source' => false)) ;
 				if (empty($doc_content)) {
-					throw new Simples_Document_Exception('Bulk ' . $this->_action . ' error : empty document in documents set') ;
+					throw new \Simples\Document\Exception('Bulk ' . $this->_action . ' error : empty document in documents set') ;
 				}
 				$json .= json_encode($action) . "\n" ;
 				$json .= $doc_content . "\n" ;
@@ -181,7 +181,7 @@ class Index extends \Simples\Request {
 	}
 
 	/**
-	 * Returns the doc in json (here to be override in Simples_Request_Uopdate)
+	 * Returns the doc in json (here to be override in \Simples\Request_Uopdate)
 	 *
 	 * @param  Simples_Document $document Doc to index
 	 * @return string                     Json string
@@ -194,7 +194,7 @@ class Index extends \Simples\Request {
 	 * Specific response object.
 	 *
 	 * @param array		$data		Search request results.
-	 * @return \Simples_Response_Search
+	 * @return \\Simples\Response_Search
 	 */
 	protected function _response($data) {
 		return new \Simples\Response\Bulk($data, $this->options()) ;

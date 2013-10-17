@@ -1,43 +1,42 @@
 <?php
+namespace Simples\Request\Search\Criteria ;
 
-require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))) . DIRECTORY_SEPARATOR . 'bootstrap.php');
-
-class Simples_Request_Search_Criteria_FilterTest extends PHPUnit_Framework_TestCase {
+class FilterTest extends \PHPUnit_Framework_TestCase {
 
 	public function testType() {
-		$query = new Simples_Request_Search_Criteria_Filter() ;
+		$query = new \Simples\Request\Search\Criteria\Filter() ;
 		$this->assertEquals('term', $query->type()) ;
-		
-		$query = new Simples_Request_Search_Criteria_Filter(array('query' => 'scharrier', 'in' => 'name')) ;
-		$this->assertEquals('term', $query->type()) ;
-		$query = new Simples_Request_Search_Criteria_Filter(array('query' => 'scharrier 123', 'in' => 'name')) ;
-		$this->assertEquals('term', $query->type()) ;
-		$query = new Simples_Request_Search_Criteria_Filter(array('query' => 'scharrier AND 123', 'in' => 'name')) ;
-		$this->assertEquals('term', $query->type()) ;
-		
 
-		$query = new Simples_Request_Search_Criteria_Filter(array(
+		$query = new \Simples\Request\Search\Criteria\Filter(array('query' => 'scharrier', 'in' => 'name')) ;
+		$this->assertEquals('term', $query->type()) ;
+		$query = new \Simples\Request\Search\Criteria\Filter(array('query' => 'scharrier 123', 'in' => 'name')) ;
+		$this->assertEquals('term', $query->type()) ;
+		$query = new \Simples\Request\Search\Criteria\Filter(array('query' => 'scharrier AND 123', 'in' => 'name')) ;
+		$this->assertEquals('term', $query->type()) ;
+
+
+		$query = new \Simples\Request\Search\Criteria\Filter(array(
 			'query' => array('sebastien','charrier'),
 			'in' => 'field'
 		)) ;
-		$this->assertEquals('terms', $query->type()) ;		
+		$this->assertEquals('terms', $query->type()) ;
 	}
-	
+
 	public function testPrepare() {
 		// Simple term
-		$query = new Simples_Request_Search_Criteria_Filter(array('query' => 'scharrier', 'in' => 'username')) ;
+		$query = new \Simples\Request\Search\Criteria\Filter(array('query' => 'scharrier', 'in' => 'username')) ;
 		$res = $query->to('array') ;
 		$expected = array(
 			'term' => array(
 				'username' => 'scharrier'
 			)
 		) ;
-		$this->assertEquals($expected, $res) ;		
+		$this->assertEquals($expected, $res) ;
 	}
 
 	public function testRanges() {
 		// Simple range
-		$query = new Simples_Request_Search_Criteria_Filter(
+		$query = new \Simples\Request\Search\Criteria\Filter(
 			array('in' => 'age', 'from' => '5', 'to' => '10'),
 			array('type' => 'range')
 		) ;
@@ -47,10 +46,10 @@ class Simples_Request_Search_Criteria_FilterTest extends PHPUnit_Framework_TestC
 				'age' => array('from' => '5', 'to' => '10')
 			)
 		) ;
-		$this->assertEquals($expected, $res) ;	
+		$this->assertEquals($expected, $res) ;
 
 		// Multiple ranges
-		$query = new Simples_Request_Search_Criteria_Filter(
+		$query = new \Simples\Request\Search\Criteria\Filter(
 			array('in' => 'age', 'ranges' => array(
 				array('from' => '5', 'to' => '10'),
 				array('from' => '11', 'to' => '20')
@@ -66,7 +65,7 @@ class Simples_Request_Search_Criteria_FilterTest extends PHPUnit_Framework_TestC
 				)
 			)
 		) ;
-		$this->assertEquals($expected, $res) ;			
+		$this->assertEquals($expected, $res) ;
 	}
 
 }

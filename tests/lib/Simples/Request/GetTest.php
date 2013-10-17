@@ -1,11 +1,10 @@
 <?php
+namespace Simples\Request ;
 
-require_once(dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'bootstrap.php');
-
-class Simples_Request_GetTest extends PHPUnit_Framework_TestCase {
+class GetTest extends \PHPUnit_Framework_TestCase {
 
 	public function testGet() {
-		$client = new Simples_Transport_Http(array(
+		$client = new \Simples\Transport\Http(array(
 			'index' => 'twitter',
 			'type' => 'tweet'
 		));
@@ -15,7 +14,7 @@ class Simples_Request_GetTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testMultiple() {
-		$client = new Simples_Transport_Http(array(
+		$client = new \Simples\Transport\Http(array(
 			'index' => 'twitter',
 			'type' => 'tweet'
 		));

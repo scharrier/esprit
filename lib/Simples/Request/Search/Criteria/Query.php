@@ -54,14 +54,14 @@ class Query extends \Simples\Request\Search\Criteria {
 	 */
 	protected function _prepare_match_all() {
 		// Force json_encode to create a {} (and not a [] wich causes a crash with facets clause)
-		return array('match_all' => new stdClass()) ;
+		return array('match_all' => new \stdClass()) ;
 	}
 
 	/**
 	 * Prepare for a "query_string" clause.
 	 *
 	 * @return array
-	 * @throws Simples_Request_Exception
+	 * @throws \Simples\Request_Exception
 	 */
 	protected function _prepare_query_string() {
 		$return = $this->get() ;
@@ -76,7 +76,7 @@ class Query extends \Simples\Request\Search\Criteria {
 				$mode = strtoupper($this->_options['mode']) ;
 			}
 			if (!in_array($mode, array('AND','OR'))) {
-				throw new Simples_Request_Exception('Bad search criteria mode "' . $mode . '"') ;
+				throw new \Simples\Request\Exception('Bad search criteria mode "' . $mode . '"') ;
 			}
 			$return['query'] = implode(' ' . $mode . ' ', $return['query']) ;
 		}

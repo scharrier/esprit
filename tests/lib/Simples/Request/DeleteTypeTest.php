@@ -1,29 +1,28 @@
 <?php
+namespace Simples\Request ;
 
-require_once(dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'bootstrap.php');
+class DeleteTypeTest extends \PHPUnit_Framework_TestCase {
 
-class Simples_Request_DeleteTypeTest extends PHPUnit_Framework_TestCase {
-	
 	public $client ;
-	
+
 	public function setUp() {
-		$this->client = new Simples_Transport_Http(array('index' => 'test_delete', 'type' => 'test_delete_type'));			
+		$this->client = new \Simples\Transport\Http(array('index' => 'test_delete', 'type' => 'test_delete_type'));
 		$this->client->createIndex()->execute() ;
 	}
 
 	public function testDelete() {
 		// Fake record
 		$this->client->index(array('some'=>'data'), array('refresh' => true))->execute() ;
-		
+
 		$request = $this->client->deleteType() ;
-		
-		$this->assertEquals(Simples_Request::DELETE, $request->method()) ;
+
+		$this->assertEquals(\Simples\Request::DELETE, $request->method()) ;
 		$this->assertEquals('/test_delete/test_delete_type/', (string) $request->path()) ;
-		
+
 		$response = $request->execute() ;
 		$this->assertTrue($response->ok) ;
 	}
-	
+
 	public function tearDown() {
 		if ($this->client) {
 			$this->client->deleteIndex()->execute() ;

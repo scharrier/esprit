@@ -55,11 +55,11 @@ class CreateIndex extends \Simples\Request {
 	 *
 	 * @param mixed	 $body		Setter mode.
 	 * @return array			Getter mode : the body.
-	 * @throws Simples_Request_Exception
+	 * @throws \Simples\Request_Exception
 	 */
 	public function body($body = null) {
 		if (!isset($body) && !isset($this->_options['index'])) {
-			throw new Simples_Request_Exception('Empty key "index" : you should specify the index name !') ;
+			throw new \Simples\Request\Exception('Empty key "index" : you should specify the index name !') ;
 		}
 		return parent::body($body) ;
 	}

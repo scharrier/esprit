@@ -39,10 +39,10 @@ class Http extends \Simples\Transport {
 	 *
 	 * @param array $config		[optionnal] Connection configuration.
 	 */
-	public function __construct(array $config = null, Simples_Factory $factory = null) {
+	public function __construct(array $config = null, \Simples\Factory $factory = null) {
 		// Check : curl installed ?
 		if (!extension_loaded('curl')) {
-			throw new Simples_Transport_Exception('Curl is not installed (curl_init function doesn\'t exists).') ;
+			throw new \Simples\Transport\Exception('Curl is not installed (curl_init function doesn\'t exists).') ;
 		}
 
 		return parent::__construct($config, $factory) ;
@@ -63,10 +63,10 @@ class Http extends \Simples\Transport {
 		if ($this->config('check')) {
 			$res = $this->call('/') ;
 			if (!isset($res)) {
-				throw new Simples_Transport_Exception('Invalid JSON or empty response') ;
+				throw new \Simples\Transport\Exception('Invalid JSON or empty response') ;
 			}
 			if (!isset($res['ok']) || (isset($res['ok']) && $res['ok'] !== true)) {
-				throw new Simples_Transport_Exception('Bad response from ElasticSearch server. Are you sure you\'re calling the good guy ?') ;
+				throw new \Simples\Transport\Exception('Bad response from ElasticSearch server. Are you sure you\'re calling the good guy ?') ;
 			}
 		}
 
@@ -138,19 +138,19 @@ class Http extends \Simples\Transport {
 		$response = curl_exec($this->_connection);
 
 		if ($response === false) {
-			throw new Simples_Transport_Exception(
+			throw new \Simples\Transport\Exception(
 				'Error during the request (' . curl_errno($this->_connection) . ') : ' .
 				curl_error($this->_connection)
 			);
 		}
 		if (!strlen($response)) {
-			throw new Simples_Transport_Exception('The ES server returned an empty response.') ;
+			throw new \Simples\Transport\Exception('The ES server returned an empty response.') ;
 		}
 
 		$return = json_decode($response, true) ;
 
 		if ($return === null) {
-			throw new Simples_Transport_Exception('Cannot JSON decode the response : ' . $response) ;
+			throw new \Simples\Transport\Exception('Cannot JSON decode the response : ' . $response) ;
 		}
 
 		return $return ;

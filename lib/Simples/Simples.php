@@ -100,7 +100,7 @@ class Simples {
 	 */
 	static protected function _factory() {
 		if (!isset(self::$_factory)) {
-			self::$_factory = new Simples_Factory() ;
+			self::$_factory = new Factory() ;
 		}
 		return self::$_factory ;
 	}

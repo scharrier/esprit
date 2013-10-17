@@ -1,48 +1,47 @@
 <?php
+namespace Simples\Request\Search\Criteria ;
 
-require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))) . DIRECTORY_SEPARATOR . 'bootstrap.php');
-
-class Simples_Request_Search_Criteria_QueryTest extends PHPUnit_Framework_TestCase {
+class QueryTest extends \PHPUnit_Framework_TestCase {
 
 	public function testType() {
-		$query = new Simples_Request_Search_Criteria_Query() ;
+		$query = new \Simples\Request\Search\Criteria\Query() ;
 		$this->assertEquals('match_all', $query->type()) ;
-		
-		$query = new Simples_Request_Search_Criteria_Query('scharrier') ;
+
+		$query = new \Simples\Request\Search\Criteria\Query('scharrier') ;
 		$this->assertEquals('query_string', $query->type()) ;
-		
-		$query = new Simples_Request_Search_Criteria_Query(array('query' => 'scharrier', 'in' => 'name')) ;
+
+		$query = new \Simples\Request\Search\Criteria\Query(array('query' => 'scharrier', 'in' => 'name')) ;
 		$this->assertEquals('term', $query->type()) ;
-		$query = new Simples_Request_Search_Criteria_Query(array('query' => 'scharrier 123', 'in' => 'name')) ;
+		$query = new \Simples\Request\Search\Criteria\Query(array('query' => 'scharrier 123', 'in' => 'name')) ;
 		$this->assertEquals('term', $query->type()) ;
-		$query = new Simples_Request_Search_Criteria_Query(array('query' => 'scharrier AND 123', 'in' => 'name')) ;
+		$query = new \Simples\Request\Search\Criteria\Query(array('query' => 'scharrier AND 123', 'in' => 'name')) ;
 		$this->assertEquals('query_string', $query->type()) ;
-		
-		$query = new Simples_Request_Search_Criteria_Query('*char*') ;
+
+		$query = new \Simples\Request\Search\Criteria\Query('*char*') ;
 		$this->assertEquals('query_string', $query->type()) ;
-		$query = new Simples_Request_Search_Criteria_Query(array('query' => '*char*', 'in' => 'name')) ;
+		$query = new \Simples\Request\Search\Criteria\Query(array('query' => '*char*', 'in' => 'name')) ;
 		$this->assertEquals('query_string', $query->type()) ;
-		$query = new Simples_Request_Search_Criteria_Query('user:scharrier*') ;
+		$query = new \Simples\Request\Search\Criteria\Query('user:scharrier*') ;
 		$this->assertEquals('query_string', $query->type()) ;
-		$query = new Simples_Request_Search_Criteria_Query(array('query' => 'user:scharrier*')) ;
+		$query = new \Simples\Request\Search\Criteria\Query(array('query' => 'user:scharrier*')) ;
 		$this->assertEquals('query_string', $query->type()) ;
-		
-		$query = new Simples_Request_Search_Criteria_Query(array('query' => 'scharrier', 'in' => array('username','retweet'))) ;
+
+		$query = new \Simples\Request\Search\Criteria\Query(array('query' => 'scharrier', 'in' => array('username','retweet'))) ;
 		$this->assertEquals('query_string', $query->type()) ;
-		
+
 	}
-	
+
 	public function testPrepare() {
 		// Empty criteria
-		$query = new Simples_Request_Search_Criteria_Query() ;
+		$query = new \Simples\Request\Search\Criteria\Query() ;
 		$res = $query->to('array') ;
 		$expected = array(
-			'match_all' => new stdClass()
+			'match_all' => new \stdClass()
 		) ;
 		$this->assertEquals($expected, $res) ;
-		
+
 		// Simple query_string
-		$query = new Simples_Request_Search_Criteria_Query('scharrier') ;
+		$query = new \Simples\Request\Search\Criteria\Query('scharrier') ;
 		$res = $query->to('array') ;
 		$expected = array(
 			'query_string' => array(
@@ -50,9 +49,9 @@ class Simples_Request_Search_Criteria_QueryTest extends PHPUnit_Framework_TestCa
 			)
 		) ;
 		$this->assertEquals($expected, $res) ;
-		
+
 		// Simple term
-		$query = new Simples_Request_Search_Criteria_Query(array('query' => 'scharrier', 'in' => 'username')) ;
+		$query = new \Simples\Request\Search\Criteria\Query(array('query' => 'scharrier', 'in' => 'username')) ;
 		$res = $query->to('array') ;
 		$expected = array(
 			'term' => array(
@@ -60,9 +59,9 @@ class Simples_Request_Search_Criteria_QueryTest extends PHPUnit_Framework_TestCa
 			)
 		) ;
 		$this->assertEquals($expected, $res) ;
-		
+
 		// Simple term in multiple fields
-		$query = new Simples_Request_Search_Criteria_Query(array('query' => 'scharrier', 'in' => array('username','retweet'))) ;
+		$query = new \Simples\Request\Search\Criteria\Query(array('query' => 'scharrier', 'in' => array('username','retweet'))) ;
 		$res = $query->to('array') ;
 		$expected = array(
 			'query_string' => array(
@@ -71,10 +70,10 @@ class Simples_Request_Search_Criteria_QueryTest extends PHPUnit_Framework_TestCa
 			)
 		) ;
 		$this->assertEquals($expected, $res) ;
-		
+
 		// Multiple terms in multiple fields
-		$query = new Simples_Request_Search_Criteria_Query(array(
-			'query' => array('sebastien','charrier'), 
+		$query = new \Simples\Request\Search\Criteria\Query(array(
+			'query' => array('sebastien','charrier'),
 			'in' => array('username','retweet')
 		)) ;
 		$res = $query->to('array') ;
@@ -85,18 +84,18 @@ class Simples_Request_Search_Criteria_QueryTest extends PHPUnit_Framework_TestCa
 			)
 		) ;
 		$this->assertEquals($expected, $res) ;
-		
+
 		// Standard request (same as previous)
-		$query = new Simples_Request_Search_Criteria_Query(array(
+		$query = new \Simples\Request\Search\Criteria\Query(array(
 			'query' => 'sebastien AND charrier',
 			'fields' => array('username','retweet')
 		), array('type' => 'query_string')) ;
 		$res2 = $query->to('array') ;
 		$this->assertEquals($res, $res2) ;
-		
+
 		// Same with "or"
-		$query = new Simples_Request_Search_Criteria_Query(array(
-			'query' => array('sebastien','charrier'), 
+		$query = new \Simples\Request\Search\Criteria\Query(array(
+			'query' => array('sebastien','charrier'),
 			'in' => array('username','retweet')
 		), array('mode' => 'or')) ;
 		$res = $query->to('array') ;
@@ -107,10 +106,10 @@ class Simples_Request_Search_Criteria_QueryTest extends PHPUnit_Framework_TestCa
 			)
 		) ;
 		$this->assertEquals($expected, $res) ;
-		
+
 		// Terms
-		$query = new Simples_Request_Search_Criteria_Query(array(
-			'query' => array('sebastien','charrier'), 
+		$query = new \Simples\Request\Search\Criteria\Query(array(
+			'query' => array('sebastien','charrier'),
 			'in' => 'username'
 		)) ;
 		$res = $query->to('array') ;
@@ -120,7 +119,7 @@ class Simples_Request_Search_Criteria_QueryTest extends PHPUnit_Framework_TestCa
 			)
 		) ;
 		$this->assertEquals($expected, $res) ;
-		
+
 	}
 
 }

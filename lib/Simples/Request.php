@@ -13,7 +13,7 @@ use \Simples\Response ;
  * @author Sébastien Charrier <scharrier@gmail.com>
  * @package	Simples
  */
-abstract class Request extends Base {
+abstract class Request extends \Simples\Base {
 
 	/**
 	 * Transport instance.
@@ -25,7 +25,7 @@ abstract class Request extends Base {
 	/**
 	 * Request definition. Has to be defined in the request implementations.
 	 *
-	 * @var array|Simples_Request_Definition	During construction phase, array is replaced by a Simples_Request_Definition instance
+	 * @var array|\Simples\Request\Definition	During construction phase, array is replaced by a \Simples\Request_Definition instance
 	 */
 	protected $_definition = array() ;
 
@@ -95,7 +95,7 @@ abstract class Request extends Base {
 	/**
 	 * Returns the current request definition.
 	 *
-	 * @return Simples_Request_Definition	The definition instance.
+	 * @return \Simples\Request_Definition	The definition instance.
 	 */
 	public function definition() {
 		return $this->_definition ;
@@ -144,7 +144,7 @@ abstract class Request extends Base {
 	 * Get the current index / indices
 	 *
 	 * @param type $index
-	 * @return \Simples_Request
+	 * @return \\Simples\Request
 	 */
 	public function index() {
 		if (!isset($this->_options['index'])) {
@@ -160,7 +160,7 @@ abstract class Request extends Base {
 	 * Getter / setter : current type(s)
 	 *
 	 * @param mixed		$type		Type (string) or types (array)
-	 * @return \Simples_Request
+	 * @return \\Simples\Request
 	 */
 	public function type() {
 		if (!isset($this->_options['type'])) {
@@ -180,7 +180,7 @@ abstract class Request extends Base {
 	 * $request->client($client)->execute() ;
 	 *
 	 * @param Simples_Transport $client		Setter mode : the client
-	 * @return \Simples_Request				setter mode : current request. Getter mode : current client.
+	 * @return \\Simples\Request				setter mode : current request. Getter mode : current client.
 	 */
 	public function client(\Simples\Transport $client = null) {
 		if (isset($client)) {
@@ -221,7 +221,7 @@ abstract class Request extends Base {
 	 * Getter / setter : body of the request.
 	 *
 	 * @param array		$body		Setter : body
-	 * @return \Simples_Request|array	Setter : $this . Getter : current body.
+	 * @return \\Simples\Request|array	Setter : $this . Getter : current body.
 	 */
 	public function body($body = null) {
 		if (isset($body)) {
@@ -243,7 +243,7 @@ abstract class Request extends Base {
 	 * Getter / setter : options for the request.
 	 *
 	 * @param array		$options		Setter : options
-	 * @return \Simples_Request|array	Setter : $this . Getter : current options.
+	 * @return \\Simples\Request|array	Setter : $this . Getter : current options.
 	 */
 	public function options(array $options = null) {
 		if (isset($options)) {
@@ -304,7 +304,7 @@ abstract class Request extends Base {
 	 * Generates a standard response. Overriden in specific requests.
 	 *
 	 * @param array		$response		Data.
-	 * @return \Simples_Response		Structured response.
+	 * @return \\Simples\Response		Structured response.
 	 */
 	protected function _response($response) {
 		return new Response($response, $this->options()) ;

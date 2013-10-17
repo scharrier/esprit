@@ -1,14 +1,13 @@
 <?php
+namespace Simples\Request\Search\Builder ;
 
-require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))) . DIRECTORY_SEPARATOR . 'bootstrap.php');
-
-class Simples_Request_Search_Builder_QueryTest extends PHPUnit_Framework_TestCase {
+class QueryTest extends \PHPUnit_Framework_TestCase {
 
 	public function testConstruct() {
-		$query = new Simples_Request_Search_Builder_Query() ;
+		$query = new \Simples\Request\Search\Builder\Query() ;
 		$res = $query->to('array') ;
 		$this->assertTrue(isset($res['match_all'])) ;
-		
+
 		$query->add('scharrier') ;
 		$res = $query->to('array') ;
 		$expected = array(
@@ -18,20 +17,20 @@ class Simples_Request_Search_Builder_QueryTest extends PHPUnit_Framework_TestCas
 		) ;
 		$this->assertEquals($expected, $res) ;
 	}
-	
+
 	public function testFluid() {
-		$request = new Simples_Request_Search() ;
-		$builder = new Simples_Request_Search_Builder_Query($request) ;
+		$request = new \Simples\Request\Search() ;
+		$builder = new \Simples\Request\Search\Builder\Query($request) ;
 		$res = $builder->add('scharrier') ;
-		$this->assertTrue($res instanceof Simples_Request_Search) ;
-		
-		$builder = new Simples_Request_Search_Builder_Query() ;
+		$this->assertTrue($res instanceof \Simples\Request\Search) ;
+
+		$builder = new \Simples\Request\Search\Builder\Query() ;
 		$res = $builder->add('scharrier') ;
-		$this->assertTrue($res instanceof Simples_Request_Search_Builder_Query) ;
+		$this->assertTrue($res instanceof \Simples\Request\Search\Builder\Query) ;
 	}
-	
+
 	public function testMerged() {
-		$query = new Simples_Request_Search_Builder_Query() ;
+		$query = new \Simples\Request\Search\Builder\Query() ;
 		$query->match('scharrier')->in('username') ;
 		$res = $query->to('array') ;
 		$expected = array(
@@ -39,13 +38,13 @@ class Simples_Request_Search_Builder_QueryTest extends PHPUnit_Framework_TestCas
 		) ;
 
 		$this->assertEquals($res, $expected) ;
-		
-		$query = new Simples_Request_Search_Builder_Query() ;
+
+		$query = new \Simples\Request\Search\Builder\Query() ;
 		$query->field('username')->match('scharrier') ;
 		$res2 = $query->to('array') ;
 		$this->assertEquals($res, $res2) ;
-		
-		$query = new Simples_Request_Search_Builder_Query() ;
+
+		$query = new \Simples\Request\Search\Builder\Query() ;
 		$query->fields(array('username', 'retweet'))->match('scharrier') ;
 		$res = $query->to('array') ;
 		$expected = array(
@@ -55,14 +54,14 @@ class Simples_Request_Search_Builder_QueryTest extends PHPUnit_Framework_TestCas
 			)
 		) ;
 		$this->assertEquals($res, $expected) ;
-		
-		$query = new Simples_Request_Search_Builder_Query() ;
+
+		$query = new \Simples\Request\Search\Builder\Query() ;
 		$query->match('scharrier') ;
 		$query->in(array('username', 'retweet')) ;
 		$res = $query->to('array') ;
 		$this->assertEquals($res, $expected) ;
-		
-		$query = new Simples_Request_Search_Builder_Query() ;
+
+		$query = new \Simples\Request\Search\Builder\Query() ;
 		$query->add(array(
 			'query' => 'scharrier',
 			'in' => array('username', 'retweet')
@@ -70,16 +69,16 @@ class Simples_Request_Search_Builder_QueryTest extends PHPUnit_Framework_TestCas
 		$res = $query->to('array') ;
 		$this->assertEquals($res, $expected) ;
 	}
-	
+
 	public function testNotMerged() {
-		$query = new Simples_Request_Search_Builder_Query() ;
-		
+		$query = new \Simples\Request\Search\Builder\Query() ;
+
 		$query->must()
 				->match('scharrier')->in(array('username','retweet'))
 				->field('category_id')->match(array('1','2','3'))
 			  ->not()
 				->field('type')->match('administreur') ;
-		
+
 		$res = $query->to('array') ;
 		$this->assertEquals(2, count($res['bool']['must'])) ;
 		$this->assertEquals(1, count($res['bool']['must_not'])) ;

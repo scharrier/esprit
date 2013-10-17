@@ -55,7 +55,7 @@ class Document extends \Simples\Base {
 	 * Set response data.
 	 *
 	 * @param array $data			Array of data
-	 * @return \Simples_Response	Current response
+	 * @return \\Simples\Response	Current response
 	 */
 	public function set($name, $data = null) {
 		if (isset($data)) {

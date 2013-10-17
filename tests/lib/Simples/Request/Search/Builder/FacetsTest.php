@@ -1,26 +1,25 @@
 <?php
+namespace Simples\Request\Search\Builder ;
 
-require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))) . DIRECTORY_SEPARATOR . 'bootstrap.php');
-
-class Simples_Request_Search_Builder_FacetsTest extends PHPUnit_Framework_TestCase {
+class FacetsTest extends \PHPUnit_Framework_TestCase {
 
 	public function testConstruct() {
-		$facets = new Simples_Request_Search_Builder_Facets() ;
+		$facets = new \Simples\Request\Search\Builder\Facets() ;
 		$res = $facets->to('array') ;
 		$this->assertTrue(empty($res)) ;
-		
+
 		$facets->add('category', array('size'=>5))->add('user_id') ;
-		
+
 		$res = $facets->to('array') ;
 		$expected = array('category','user_id') ;
-		
-		
-		$this->assertEquals(2, count($facets)) ; 
+
+
+		$this->assertEquals(2, count($facets)) ;
 		$this->assertEquals($expected, array_keys($res)) ;
-		
+
 		$facets->add(array('order' => 'term')) ;
-		$this->assertEquals(2, count($facets)) ; 
-		
+		$this->assertEquals(2, count($facets)) ;
+
 		$res = $facets->to('array') ;
 		$expected = array(
 			'terms' => array(
@@ -30,16 +29,16 @@ class Simples_Request_Search_Builder_FacetsTest extends PHPUnit_Framework_TestCa
 		) ;
 		$this->assertEquals($expected, $res['user_id']) ;
 	}
-	
+
 	public function testFiltered() {
-		$facets = new Simples_Request_Search_Builder_Facets() ;
+		$facets = new \Simples\Request\Search\Builder\Facets() ;
 		$facets
 			->add('category')
 			->add('user_id')
 			->add(array('size' => 5))
 			->filtered()
 				->should()
-					->field('status')->match('valid') 
+					->field('status')->match('valid')
 					->field('firstname')->match(array('Jim','Ray')) ;
 		$res = $facets->to('array') ;
 
