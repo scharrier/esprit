@@ -10,14 +10,14 @@ class Set extends \PHPUnit_Framework_TestCase {
 		try {
 			$set = new \Simples\Document\Set(array('something', 'bad')) ;
 			$this->fail() ;
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 		}
 
-		$set = new \Simples\Document\Set(new Simples_Document(array('something' => 'good'))) ;
+		$set = new \Simples\Document\Set(new \Simples\Document(array('something' => 'good'))) ;
 		$this->assertTrue($set instanceof \Simples\Document\Set) ;
 		$this->assertEquals(1, count($set)) ;
 
-		$set = new \Simples\Document\Set(array(new Simples_Document(array('something' => 'good')))) ;
+		$set = new \Simples\Document\Set(array(new \Simples\Document(array('something' => 'good')))) ;
 		$this->assertTrue($set instanceof \Simples\Document\Set) ;
 		$this->assertEquals(1, count($set)) ;
 	}
@@ -98,11 +98,11 @@ class Set extends \PHPUnit_Framework_TestCase {
 			array('_id' => 10)
 		) ;
 		$set = new \Simples\Document\Set($data, array('source' => true)) ;
-		$this->assertTrue($set->get(0)->properties() instanceof Simples_Document) ;
+		$this->assertTrue($set->get(0)->properties() instanceof \Simples\Document) ;
 		$this->assertEquals(10, $set->get(0)->properties()->id) ;
 
 		$set = new \Simples\Document\Set($data, array('source' => false)) ;
-		$this->assertFalse($set->get(0)->properties() instanceof Simples_Document) ;
+		$this->assertFalse($set->get(0)->properties() instanceof \Simples\Document) ;
 	}
 
 }

@@ -23,7 +23,7 @@ abstract class Builder extends \Simples\Base implements \Countable {
 	 * @param mixed						$query		Query definition (string/array)
 	 * @param \Simples\Request_Search	$request	Request calling this query builder.
 	 */
-	public function __construct(\Simples\Request_Search $request = null) {
+	public function __construct(\Simples\Request\Search $request = null) {
 		if (isset($request)) {
 			$this->_request = $request ;
 		}

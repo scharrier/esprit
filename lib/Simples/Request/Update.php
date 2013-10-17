@@ -1,6 +1,8 @@
 <?php
 namespace Simples\Request ;
 
+use \Simples\Document ;
+
 /**
  * Update.
  *
@@ -39,7 +41,7 @@ class Update extends Index {
 	 * @param  Simples_Document $document Doc to index
 	 * @return string                     Json string
 	 */
-	protected function _jsonDoc(Simples_Document $document, array $options = array()) {
+	protected function _jsonDoc(Document $document, array $options = array()) {
 		$return =  array('doc' => $document->to('array', $options + $this->_options)) ;
 		return json_encode($return) ;
 	}

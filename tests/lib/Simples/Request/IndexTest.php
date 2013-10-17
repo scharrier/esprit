@@ -16,7 +16,7 @@ class Index extends \PHPUnit_Framework_TestCase {
 		try {
 			$request = new \Simples\Request\Index(new \Simples\Transport\Http());
 			$this->fail();
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 
 		}
 
@@ -44,7 +44,7 @@ class Index extends \PHPUnit_Framework_TestCase {
 
 
 		// From a document
-		$doc = new Simples_Document(array(
+		$doc = new \Simples\Document(array(
 			'id' => '666',
 			'content' => 'Test',
 			'user' => 'jmorrison'

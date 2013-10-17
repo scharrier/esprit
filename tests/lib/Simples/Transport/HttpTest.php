@@ -12,7 +12,7 @@ class Http extends \PHPUnit_Framework_TestCase {
 
 			$transport->disconnect() ;
 			$this->assertFalse($transport->connected()) ;
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			$this->markTestSkipped($e->getMessage()) ;
 		}
 
@@ -20,7 +20,7 @@ class Http extends \PHPUnit_Framework_TestCase {
 			$transport = new \Simples\Transport\Http(array('host' => 'www.google.com', 'port' => '80')) ;
 			$transport->connect() ;
 			$this->fail();
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 		}
 
 
@@ -36,7 +36,7 @@ class Http extends \PHPUnit_Framework_TestCase {
 
 		try {
 			$transport->connect() ;
-		} catch(Exception $e) {
+		} catch(\Exception $e) {
 			return ;
 		}
 
@@ -64,8 +64,8 @@ class Http extends \PHPUnit_Framework_TestCase {
 	public function testMagicCall() {
 		$transport = new \Simples\Transport\Http() ;
 		$status = $transport->status() ;
-		$this->assertTrue($status instanceof \Simples\Request_Status) ;
+		$this->assertTrue($status instanceof \Simples\Request\Status) ;
 		$response = $transport->status()->execute() ;
-		$this->assertTrue($response instanceof Simples_Response) ;
+		$this->assertTrue($response instanceof \Simples\Response) ;
 	}
 }

@@ -124,7 +124,7 @@ class SearchTest extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($request->instance() instanceof \Simples\Request\Search\Criteria\Query) ;
 
 		$filter = $request->filter(array('value' => 'test', 'in' => 'my_field'))->instance() ;
-		$this->assertTrue($filter instanceof \Simples\Request_Search_Criteria_Filter) ;
+		$this->assertTrue($filter instanceof \Simples\Request\Search\Criteria\Filter) ;
 
 		$filter2 = $request->filter(array('value' => 'other test', 'in' => 'my_field'))->instance() ;
 		$this->assertTrue($filter2 instanceof \Simples\Request\Search\Criteria\Filter) ;
