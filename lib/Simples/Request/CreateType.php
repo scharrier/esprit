@@ -33,7 +33,7 @@ class CreateType extends \Simples\Request\DeleteType {
 	 */
 	public function body($body = null) {
 		if (!isset($body) && !isset($this->_options['type'])) {
-			throw new \Simples\Request\Exception('Empty key "type" : you should specify the type name !') ;
+			throw new Exception('Empty key "type" : you should specify the type name !') ;
 		}
 		if (!isset($body)) {
 			return [$this->_options['type'] => new \stdClass()] ;
