@@ -40,6 +40,7 @@ class Factory extends \Simples\Base {
 			'mapping' => '\Simples\Request\Mapping',
 			'createIndex' => '\Simples\Request\CreateIndex',
 			'deleteIndex' => '\Simples\Request\DeleteIndex',
+			'createType' => '\Simples\Request\CreateType',
 			'deleteType' => '\Simples\Request\DeleteType'
 		),
 		'Response' => array(
