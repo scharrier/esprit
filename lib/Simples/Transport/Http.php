@@ -61,16 +61,27 @@ class Http extends \Simples\Transport {
 
 		// Check if it's an ES server
 		if ($this->config('check')) {
-			$res = $this->call('/') ;
-			if (!isset($res)) {
-				throw new \Simples\Transport\Exception('Invalid JSON or empty response') ;
-			}
-			if (!isset($res['ok']) || (isset($res['ok']) && $res['ok'] !== true)) {
-				throw new \Simples\Transport\Exception('Bad response from ElasticSearch server. Are you sure you\'re calling the good guy ?') ;
-			}
+			$this->check() ;
 		}
 
 		return $this ;
+	}
+
+	/**
+	 * Check the current compatibility.
+	 *
+	 * @return bool Everything's ok !
+	 */
+	public function check() {
+		$res = $this->call('/') ;
+		if (!isset($res)) {
+			throw new \Simples\Transport\Exception('Invalid JSON or empty response') ;
+		}
+		if (!isset($res['ok']) || (isset($res['ok']) && $res['ok'] !== true)) {
+			throw new \Simples\Transport\Exception('Bad response from ElasticSearch server. Are you sure you\'re calling the good guy ?') ;
+		}
+
+		return true ;
 	}
 
 	/**

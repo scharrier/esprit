@@ -1,47 +1,7 @@
 <?php
-namespace Simples\Test ;
+namespace Simples\Unit\Transport ;
 
-class Http extends \PHPUnit_Framework_TestCase {
-
-    public function testConnection() {
-		try {
-			$transport = new \Simples\Transport\Http() ;
-			$transport->connect() ;
-			$this->assertTrue($transport->connected()) ;
-			$this->assertTrue($transport instanceof \Simples\Transport\Http) ;
-
-			$transport->disconnect() ;
-			$this->assertFalse($transport->connected()) ;
-		} catch (\Exception $e) {
-			$this->markTestSkipped($e->getMessage()) ;
-		}
-
-		try {
-			$transport = new \Simples\Transport\Http(array('host' => 'www.google.com', 'port' => '80')) ;
-			$transport->connect() ;
-			$this->fail();
-		} catch (\Exception $e) {
-		}
-
-
-	}
-
-	public function testCheck() {
-		$transport = new \Simples\Transport\Http() ;
-
-		$transport->config(array(
-			'host' => 'www.google.com',
-			'port' => 80
-		)) ;
-
-		try {
-			$transport->connect() ;
-		} catch(\Exception $e) {
-			return ;
-		}
-
-		$this->fail() ;
-	}
+class HttpTest extends \PHPUnit_Framework_TestCase {
 
 	public function testUrl() {
 		$transport = new \Simples\Transport\Http() ;
@@ -54,18 +14,9 @@ class Http extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('http://farhost/_status', $transport->url('/_status')) ;
 	}
 
-	public function testCall() {
-		$transport = new \Simples\Transport\Http() ;
-		$res = $transport->call() ;
-		$this->assertTrue($res['ok']);
-		$this->assertTrue(isset($res['version']['number'])) ;
-	}
-
 	public function testMagicCall() {
 		$transport = new \Simples\Transport\Http() ;
 		$status = $transport->status() ;
 		$this->assertTrue($status instanceof \Simples\Request\Status) ;
-		$response = $transport->status()->execute() ;
-		$this->assertTrue($response instanceof \Simples\Response) ;
 	}
 }
