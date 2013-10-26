@@ -1,6 +1,6 @@
 # Esprit
 
-[![Build Status](https://secure.travis-ci.org/v-technologies/simpl-es.png)](http://travis-ci.org/v-technologies/simpl-es)
+[![Build Status](https://secure.travis-ci.org/scharrier/esprit.png)](http://travis-ci.org/scharrier/esprit)
 
 What ?
 ------
