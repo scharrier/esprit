@@ -195,31 +195,28 @@ abstract class Transport extends \Esprit\Base {
 	 * @return \\Esprit\Request
 	 */
 	public function __call($request, $params) {
-		$path = 'Request.' . $request ;
-		if ($this->_factory->valid($path)) {
-			// Automatically add index / type if defined
-			$options = array(
-				'index' => isset($this->_config['index']) ? $this->_config['index'] : null,
-				'type' => isset($this->_config['type']) ? $this->_config['type'] : null,
-			) ;
+		// Automatically add index / type if defined
+		$options = array(
+			'index' => isset($this->_config['index']) ? $this->_config['index'] : null,
+			'type' => isset($this->_config['type']) ? $this->_config['type'] : null,
+		) ;
 
-			if (isset($params[1])) {
-				$options = $params[1] + $options ;
-			}
-
-			// Add request alias + transport instance
-			$body = isset($params[0]) ? $params[0] : array() ;
-
-			// Magic param
-			if (is_scalar($body)) {
-				$key = $this->_factory->defaultParam($path) ;
-				if (!isset($key)) {
-					throw new \Esprit\Transport\Exception('No default param defined for "' . $path . '". You have to give a full body.') ;
-				}
-				$body = array($key => $body) ;
-			}
-
-			return $this->_factory->request($request, $body, $options, $this) ;
+		if (isset($params[1])) {
+			$options = $params[1] + $options ;
 		}
+
+		// Add request alias + transport instance
+		$body = isset($params[0]) ? $params[0] : array() ;
+
+		// Magic param
+		if (is_scalar($body)) {
+			$key = $this->_factory->defaultParam($request) ;
+			if (!isset($key)) {
+				throw new \Esprit\Transport\Exception('No default param defined for "' . $path . '". You have to give a full body.') ;
+			}
+			$body = array($key => $body) ;
+		}
+
+		return $this->_factory->request($request, $body, $options, $this) ;
 	}
 }
