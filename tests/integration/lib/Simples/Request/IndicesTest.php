@@ -1,5 +1,5 @@
 <?php
-namespace Simples\Integration\Request ;
+namespace Esprit\Integration\Request ;
 
 require_once(__DIR__ . '/BaseTest.php') ;
 

@@ -1,23 +1,23 @@
 {
-	"name": "v-technologies/simpl-es",
+	"name": "v-technologies/Esprit",
 	"type": "library",
-	"description": "ElasticSearch PHP API. Simpler. Really. ",
+	"description": "ElasticSearch PHP client. Smart and simple. ",
 	"authors": [
 		{
-			"name": "Sebastien Charrier, V-Technologies",
-			"email": "sebastien@vtech.fr"
+			"name": "Sebastien Charrier",
+			"email": "scharrier@gmail.com"
 		}
 	],
 	"keywords" : ["search","elasticsearch"],
 	"licence" : "MIT",
-	"homepage" : "http://github.com/v-technologies/simpl-es/",
+	"homepage" : "http://github.com/scharrier/esprit/",
 	"require": {
-		"php" : ">=5.2.0"
+		"php" : ">=5.4.0"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "3.7.*"
 	},
 	"autoload": {
-		"psr-0": {"Simples": "lib/"}
+		"psr-0": {"Esprit": "lib/"}
 	}
 }

@@ -5,7 +5,7 @@
 What ?
 ------
 
-Total refactoring of original project Simpl-ES. It will be faster, better architectured, and funnier. Stay tuned !
+Total refactoring of original project Simpl-ES. It will be smarter, better architectured, and funnier. Stay tuned !
 
 Contact
 -------

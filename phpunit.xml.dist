@@ -2,7 +2,7 @@
 
 <phpunit bootstrap="tests/bootstrap.php" colors="true">
     <testsuites>
-        <testsuite name="Simpl-ES Tests Suite">
+        <testsuite name="Esprit Tests Suite">
             <directory>tests/</directory>
         </testsuite>
     </testsuites>

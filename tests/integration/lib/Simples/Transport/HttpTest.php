@@ -1,11 +1,11 @@
 <?php
-namespace Simples\Integration\Transport ;
+namespace Esprit\Integration\Transport ;
 
 class HttpTest extends \PHPUnit_Framework_TestCase {
 
 	public function testConnect() {
 		// Defaults index / type
-		$client = new \Simples\Transport\Http(array(
+		$client = new \Esprit\Transport\Http(array(
 			'host' => 'localhost',
 			'port' => 666,
 			'index' => 'twitter',
@@ -19,7 +19,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase {
 		} catch(\Exception $e) {} ;
 
 		// Defaults index / type
-		$client = new \Simples\Transport\Http(array(
+		$client = new \Esprit\Transport\Http(array(
 			'host' => 'localhost',
 			'index' => 'twitter',
 			'type' => 'tweet',
@@ -31,15 +31,15 @@ class HttpTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testCall() {
-		$transport = new \Simples\Transport\Http() ;
+		$transport = new \Esprit\Transport\Http() ;
 		$res = $transport->call() ;
 		$this->assertTrue($res['ok']);
 		$this->assertTrue(isset($res['version']['number'])) ;
 	}
 
 	public function testMagicCall() {
-		$transport = new \Simples\Transport\Http() ;
+		$transport = new \Esprit\Transport\Http() ;
 		$response = $transport->status()->execute() ;
-		$this->assertTrue($response instanceof \Simples\Response) ;
+		$this->assertTrue($response instanceof \Esprit\Response) ;
 	}
 }

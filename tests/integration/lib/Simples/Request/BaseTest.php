@@ -1,7 +1,7 @@
 <?php
-namespace Simples\Integration\Request ;
+namespace Esprit\Integration\Request ;
 
-use \Simples\Transport\Http ;
+use \Esprit\Transport\Http ;
 
 abstract class BaseTest extends \PHPUnit_Framework_TestCase {
 
