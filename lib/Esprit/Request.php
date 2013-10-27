@@ -13,7 +13,9 @@ use \Esprit\Response ;
  * @author Sébastien Charrier <scharrier@gmail.com>
  * @package	Esprit
  */
-abstract class Request extends \Esprit\Base {
+abstract class Request {
+
+	use \Esprit\Behavior\DataContainer ;
 
 	/**
 	 * Transport instance.

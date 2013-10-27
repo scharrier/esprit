@@ -10,7 +10,9 @@ namespace Esprit ;
  * @author Sébastien Charrier <scharrier@gmail.com>
  * @package	Esprit
  */
-abstract class Transport extends \Esprit\Base {
+abstract class Transport  {
+
+	use \Esprit\Behavior\Configurable ;
 
 	protected $_factory ;
 

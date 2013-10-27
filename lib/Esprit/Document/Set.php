@@ -11,14 +11,10 @@ use \Esprit\Document\Exception ;
  * @package	Esprit
  * @subpackage Document
  */
-class Set extends \Esprit\Base implements \IteratorAggregate, \Countable {
+class Set implements \IteratorAggregate, \Countable {
 
-	/**
-	 * Set data.
-	 *
-	 * @var array
-	 */
-	protected $_data = array() ;
+	use \Esprit\Behavior\DataContainer ;
+	use \Esprit\Behavior\Configurable ;
 
 	/**
 	 * Configuration.

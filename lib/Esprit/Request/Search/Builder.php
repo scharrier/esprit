@@ -8,7 +8,9 @@ namespace Esprit\Request\Search ;
  * @package	Esprit
  * @subpackage Request.Search
  */
-abstract class Builder extends \Esprit\Base implements \Countable {
+abstract class Builder implements \Countable {
+
+	use \Esprit\Behavior\DataContainer ;
 
 	/**
 	 * Request dependency.

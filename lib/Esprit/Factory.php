@@ -7,7 +7,7 @@ namespace Esprit ;
  * @author Sébastien Charrier <scharrier@gmail.com>
  * @package	Esprit
  */
-class Factory extends \Esprit\Base {
+class Factory {
 
 	/**
 	 * Reflection cache.

@@ -11,7 +11,7 @@ trait Configurable {
 	 *
 	 * @var array
 	 */
-	protected $_config = array() ;
+	protected $_config ;
 
 	/**
 	 * Configuration getter/setter.
@@ -38,7 +38,13 @@ trait Configurable {
 	 * @return mixed					Current object in setter mode, value (or full config) in getter mode
 	 */
 	public function config($key = null, $value = null) {
-		if (isset($key)) {
+
+		// Initialise config if it wasn't
+		if (!is_array($this->_config)) {
+			$this->_config = array() ;
+		}
+
+ 		if (isset($key)) {
 			if (is_array($key)) {
 				$this->_config = $key + $this->_config ;
 				return $this ;

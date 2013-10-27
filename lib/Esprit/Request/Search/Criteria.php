@@ -8,7 +8,9 @@ namespace Esprit\Request\Search ;
  * @package	Esprit
  * @subpackage Request
  */
-abstract class Criteria extends \Esprit\Base {
+abstract class Criteria {
+
+	use \Esprit\Behavior\DataContainer ;
 
 	/**
 	 * Default type.

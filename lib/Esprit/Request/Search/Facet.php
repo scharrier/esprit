@@ -8,7 +8,9 @@ namespace Esprit\Request\Search ;
  * @package	Esprit
  * @subpackage Request
  */
-class Facet extends \Esprit\Base {
+class Facet {
+
+	use \Esprit\Behavior\DataContainer ;
 
 	/**
 	 * Criteria type.

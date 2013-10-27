@@ -12,7 +12,7 @@ trait DataContainer {
 	 *
 	 * @var array
 	 */
-	protected $_data = array() ;
+	protected $_data ;
 
 	/**
 	 * Wrapper for format transformation : gives the request in the asked

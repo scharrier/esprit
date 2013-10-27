@@ -9,7 +9,13 @@ use \Esprit\Document\Set ;
  * @author Sébastien Charrier <scharrier@gmail.com>
  * @package	Esprit
  */
-class Document extends \Esprit\Base {
+class Document {
+
+	use \Esprit\Behavior\DataContainer {
+		_data as _containerData ;
+	}
+
+	use \Esprit\Behavior\Configurable ;
 
 	/**
 	 * Document properties.
@@ -17,13 +23,6 @@ class Document extends \Esprit\Base {
 	 * @var Esprit_Document
 	 */
 	protected $_properties ;
-
-	/**
-	 * Data
-	 *
-	 * @var array
-	 */
-	protected $_data = array() ;
 
 	/**
 	 * Configuration:
@@ -132,7 +131,7 @@ class Document extends \Esprit\Base {
 			if (!empty($options['cast'])) {
 				$this->_options($key, $options) ;
 			}
-			if ($value instanceof \Esprit\Base) {
+			if (is_object($value)) {
 				$data[$key] = $value->to('array', array('source' => false) + $options) ;
 			}
 		}
@@ -274,7 +273,7 @@ class Document extends \Esprit\Base {
 			'cast' => $this->_config['cast']
 		);
 
-		$data = parent::_data($options) ;
+		$data = $this->_containerData($options) ;
 
 		if ($options['clean']) {
 			$this->_clean($data, $options) ;
@@ -324,10 +323,8 @@ class Document extends \Esprit\Base {
 				// We wanna force the type
 				settype($data[$key], $options['cast'][$_path]) ;
 			} else {
-				if ($value instanceof \Esprit\Base) {
-					//$this->_clean($value, $options, $_keys) ;
-				} elseif ((is_scalar($value) && !strlen($value)) || !isset($value)) {
-					if ($data instanceof \Esprit\Base) {
+				if ((is_scalar($value) && !strlen($value)) || !isset($value)) {
+					if (is_object($data)) {
 						unset($data->{$key}) ;
 					} else {
 						unset($data[$key]) ;

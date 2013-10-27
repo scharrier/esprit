@@ -10,14 +10,10 @@ use \Esprit\Response\Exception ;
  * @package	Esprit
  * @subpackage Reponse
  */
-class Response extends Base {
+class Response {
 
-	/**
-	 * Data
-	 *
-	 * @var array
-	 */
-	protected $_data = array() ;
+	use \Esprit\Behavior\DataContainer ;
+	use \Esprit\Behavior\Configurable ;
 
 	/**
 	 * Constructor.
