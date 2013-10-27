@@ -18,6 +18,13 @@ class Document {
 	use \Esprit\Behavior\Configurable ;
 
 	/**
+	 * Data
+	 *
+	 * @var array
+	 */
+	protected $_data = array() ;
+
+	/**
 	 * Document properties.
 	 *
 	 * @var Esprit_Document

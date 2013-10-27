@@ -8,13 +8,6 @@ namespace Esprit\Behavior ;
 trait DataContainer {
 
 	/**
-	 * Object data.
-	 *
-	 * @var array
-	 */
-	protected $_data ;
-
-	/**
 	 * Wrapper for format transformation : gives the request in the asked
 	 * format.
 	 *

@@ -16,6 +16,20 @@ class Response {
 	use \Esprit\Behavior\Configurable ;
 
 	/**
+	 * Data
+	 *
+	 * @var array
+	 */
+	protected $_data = array() ;
+
+	/**
+	 * Config
+	 *
+	 * @var array
+	 */
+	protected $_config = array() ;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param EspritTransport $transport		Connection to use.
