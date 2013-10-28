@@ -15,6 +15,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testComplexCalls() {
+		// Global test
 		$criteria = B::should(
 			B::term('first_field','value'),
 			B::terms('second_field',['value_1','value_2']),
@@ -43,5 +44,33 @@ class BuilderTest extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($criteria->to('array'), $res) ;
 
+		// Ranges
+		$criteria = B::must(
+			B::lt('field',10),
+			B::gt('field', 2)
+		) ;
+
+		$res = [
+			'bool' => [
+				'must' => [
+					[
+						'range' => [
+							'field' => [
+								'lt' => 10
+							]
+						]
+					],
+					[
+						'range' => [
+							'field' => [
+								'gt' => 2
+							]
+						]
+					]
+				]
+			]
+		] ;
+
+		$this->assertEquals($criteria->to('array'), $res) ;
 	}
 }

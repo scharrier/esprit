@@ -24,6 +24,16 @@ class Range extends \Esprit\Request\Search\Criteria\Type\FieldValue {
 	}
 
 	/**
+	 * Gt property accessor
+	 *
+	 * @param  mixed $gt Setter : value
+	 * @return mixed      Getter : value
+	 */
+	public function gt($gt = null) {
+		return $this->_setget('gt', $gt) ;
+	}
+
+	/**
 	 * Gte property accessor
 	 *
 	 * @param  mixed $gte Setter : value
@@ -31,6 +41,16 @@ class Range extends \Esprit\Request\Search\Criteria\Type\FieldValue {
 	 */
 	public function gte($gte = null) {
 		return $this->_setget('gte', $gte) ;
+	}
+
+	/**
+	 * Lt property accessor
+	 *
+	 * @param  mixed $lt Setter : value
+	 * @return mixed      Getter : value
+	 */
+	public function lt($lt = null) {
+		return $this->_setget('lt', $lt) ;
 	}
 
 	/**
@@ -44,15 +64,6 @@ class Range extends \Esprit\Request\Search\Criteria\Type\FieldValue {
 	}
 
 	/**
-	 * Get all criteria properties
-	 *
-	 * @return array Properties
-	 */
-	public function properties() {
-		return array_diff_key($this->_data, array('in' => true, 'lte' => true, 'gte' => true)) ;
-	}
-
-	/**
 	 * Body data
 	 *
 	 * @return array Body
@@ -60,10 +71,7 @@ class Range extends \Esprit\Request\Search\Criteria\Type\FieldValue {
 	protected function _data() {
 		return [
 			'range' => [
-				$this->in() => [
-					'gte' => $this->gte(),
-					'lte' => $this->lte()
-				] + $this->properties()
+				$this->in() => $this->properties()
 			]
 		] ;
 	}
