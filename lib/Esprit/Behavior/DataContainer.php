@@ -53,6 +53,20 @@ trait DataContainer {
 	}
 
 	/**
+	 * Universal setter/getter.
+	 *
+	 * @param  string $key   Key to get/set
+	 * @param  mixed  $value Value to set
+	 * @return mixed         Value if getter
+	 */
+	protected function _setget($key, $value = null) {
+		if (!isset($value)) {
+			return $this->data($key) ;
+		}
+		return $this->data($key, $value) ;
+	}
+
+	/**
 	 * Base data getter.
 	 *
 	 * @return array

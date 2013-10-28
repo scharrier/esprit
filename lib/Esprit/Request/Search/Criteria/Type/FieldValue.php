@@ -41,10 +41,7 @@ abstract class FieldValue extends \Esprit\Request\Search\Criteria {
 	 * @return mixed     Field(s)
 	 */
 	public function in($in = null) {
-		if (!isset($in)) {
-			return $this->data('in') ;
-		}
-		return $this->data('in', $in) ;
+		return $this->_setget('in', $in) ;
 	}
 
 	/**
@@ -54,9 +51,6 @@ abstract class FieldValue extends \Esprit\Request\Search\Criteria {
 	 * @return mixed        Value
 	 */
 	public function value($value = null) {
-		if (!isset($value)) {
-			return $this->data('value') ;
-		}
-		return $this->data('value', $value) ;
+		return $this->_setget('value', $value) ;
 	}
 }
