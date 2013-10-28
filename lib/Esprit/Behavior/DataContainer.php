@@ -31,12 +31,25 @@ trait DataContainer {
 	 * @param  array $data Setter : data to set
 	 * @return array       Getter : data to get
 	 */
-	public function data($data = null) {
+	public function data($data = null, $value = null) {
 		if (!isset($data)) {
 			return $this->_data() ;
 		}
 
-		$this->_data = $data ;
+		if (is_array($data)) {
+			if (isset($this->_data)) {
+				$this->_data = $data + $this->_data ;
+			} else {
+				$this->_data = $data ;
+			}
+		} else {
+			if (!isset($value)) {
+				return isset($this->_data[$data]) ? $this->_data[$data] : null ;
+			}
+			$this->_data[$data] = $value ;
+		}
+
+		return $this ;
 	}
 
 	/**
@@ -44,7 +57,7 @@ trait DataContainer {
 	 *
 	 * @return array
 	 */
-	protected function _data(array $options = array()) {
+	protected function _data() {
 		if (isset($this->_data)) {
 			return $this->_data ;
 		}
