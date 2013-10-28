@@ -1,7 +1,7 @@
 <?php
 namespace Esprit\Request\Search\Criteria ;
 
-class Field extends \Esprit\Request\Search\Criteria\FieldValue {
+class Field extends \Esprit\Request\Search\Criteria\Type\FieldValue {
 
 	/**
 	 * Body data
