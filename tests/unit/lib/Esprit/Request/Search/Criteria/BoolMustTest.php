@@ -1,11 +1,11 @@
 <?php
 namespace Esprit\Request\Search\Criteria ;
 
-use \Esprit\Request\Search\Criteria\MustNot as Criteria ;
+use \Esprit\Request\Search\Criteria\BoolMust as Criteria ;
 use \Esprit\Request\Search\Criteria\Term as Term ;
 
 
-class MustNotTest extends \PHPUnit_Framework_TestCase {
+class BoolMustTest extends \PHPUnit_Framework_TestCase {
 
 	public function testConstructor() {
 		$criteria = new Criteria(
@@ -14,7 +14,7 @@ class MustNotTest extends \PHPUnit_Framework_TestCase {
 		);
 
 		$res = $criteria->to('array')['bool'] ;
-		$this->assertEquals(2, count($res['must_not'])) ;
-		$this->assertEquals('value', $res['must_not'][0]['term']['first']['value']) ;
+		$this->assertEquals(2, count($res['must'])) ;
+		$this->assertEquals('value', $res['must'][0]['term']['first']['value']) ;
 	}
 }

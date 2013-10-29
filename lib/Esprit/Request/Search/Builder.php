@@ -21,10 +21,19 @@ class Builder {
 	 * @return \Esprit\Request\Search\Criteria   Search criteria if found
 	 */
 	static public function __callStatic($class, $args) {
-		$class = '\Esprit\Request\Search\Criteria\\' . ucfirst($class) ;
-		if (class_exists($class)) {
-			return static::_reflect($class)->newInstanceArgs($args);
+		$class = ucfirst($class) ;
+		$classes = [
+			'\Esprit\Request\Search\Criteria\\' . $class,
+			'\Esprit\Request\Search\Criteria\Bool' . $class,
+		] ;
+
+		foreach($classes as $_class) {
+			if (class_exists($_class)) {
+				return static::_reflect($_class)->newInstanceArgs($args);
+			}
 		}
+
+		throw new \Exception('Criteria class "' . $class . '"" cannot be loaded') ;
 	}
 
 	/**

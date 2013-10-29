@@ -1,11 +1,11 @@
 <?php
 namespace Esprit\Request\Search\Criteria ;
 
-use \Esprit\Request\Search\Criteria\Should as Criteria ;
+use \Esprit\Request\Search\Criteria\BoolShould as Criteria ;
 use \Esprit\Request\Search\Criteria\Term as Term ;
 
 
-class ShouldTest extends \PHPUnit_Framework_TestCase {
+class BoolShouldTest extends \PHPUnit_Framework_TestCase {
 
 	public function testConstructor() {
 		$criteria = new Criteria(

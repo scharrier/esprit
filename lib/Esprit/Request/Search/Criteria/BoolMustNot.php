@@ -4,7 +4,7 @@ namespace Esprit\Request\Search\Criteria ;
 /**
  * MustNot criteria.
  */
-class MustNot extends \Esprit\Request\Search\Criteria\Type\ParentCriteria {
+class BoolMustNot extends \Esprit\Request\Search\Criteria\Type\ParentCriteria {
 
 	/**
 	 * Body data
