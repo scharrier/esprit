@@ -2,9 +2,11 @@
 namespace Esprit\Request\Search\Criteria ;
 
 /**
- * Match query.
+ * Match or multimatch query.
  *
- * Doc : http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-match-query.html
+ * Doc :
+ * - Match : http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-match-query.html
+ * - Multi match : http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl-multi-match-query.html
  */
 class Match extends \Esprit\Request\Search\Criteria\Type\FieldValue {
 
@@ -14,6 +16,17 @@ class Match extends \Esprit\Request\Search\Criteria\Type\FieldValue {
 	 * @return array Body
 	 */
 	protected function _data() {
+		if (is_array($this->in())) {
+			// Multi match (multiple fields)
+			return [
+				'multi_match' => [
+					'query' => $this->value(),
+					'fields' => $this->in()
+				] + $this->properties()
+			] ;
+		}
+
+		// Standard match
 		return [
 			'match' => [
 				$this->in() => [
