@@ -8,6 +8,10 @@ class TermTest extends \PHPUnit_Framework_TestCase {
 	public function testConstructor() {
 		$criteria = new Criteria('my_value','my_field') ;
 		$this->assertEquals(['term' => ['my_field' => ['value' => 'my_value']]], $criteria->to('array')) ;
+
+		// With optionnal data
+		$criteria = new Criteria('my_value','my_field', ['boost' => '3']) ;
+		$this->assertEquals(['term' => ['my_field' => ['value' => 'my_value', 'boost' => '3']]], $criteria->to('array')) ;
 	}
 
 	public function testBody() {

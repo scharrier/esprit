@@ -12,7 +12,7 @@ abstract class FieldValue extends \Esprit\Request\Search\Criteria {
 	 * @param mixed $in    In : field name or data array
 	 * @param mixed $value Search value
 	 */
-	public function __construct($value = null, $in = null) {
+	public function __construct($value = null, $in = null, array $data = array()) {
 		// Simple instanciation
 		if (isset($value)) {
 			// Value or global data
@@ -25,6 +25,11 @@ abstract class FieldValue extends \Esprit\Request\Search\Criteria {
 			// In
 			if (isset($in)) {
 				$this->data('in', $in) ;
+			}
+
+			// Optionnal data
+			if ($data) {
+				$this->data($data) ;
 			}
 		}
 
