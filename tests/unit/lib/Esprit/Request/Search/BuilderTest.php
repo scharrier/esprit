@@ -72,5 +72,39 @@ class BuilderTest extends \PHPUnit_Framework_TestCase {
 		] ;
 
 		$this->assertEquals($criteria->to('array'), $res) ;
+
+		// Test raw merge
+		$criteria = B::raw([
+			'and' => [
+				B::term('coucou','name'),
+				B::raw([
+					'or' => [
+						B::gt(10, 'age'),
+						B::range(5, 10, 'age')
+					]
+				])
+			]
+		]) ;
+
+		$expected = [
+			'and' => [
+				['term' => ['name' => ['value' => 'coucou']]],
+				['or' => [
+					['range' => [
+						'age' => [
+							'gt' => 10
+						]
+					]],
+					['range' => [
+						'age' => [
+							'gte' => 5,
+							'lte' => 10
+						]
+					]]
+				]]
+			]
+		] ;
+
+		$this->assertEquals($expected, $criteria->to('array')) ;
 	}
 }
