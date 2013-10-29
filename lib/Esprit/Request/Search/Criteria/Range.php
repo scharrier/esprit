@@ -13,7 +13,7 @@ class Range extends \Esprit\Request\Search\Criteria\Type\FieldValue {
 	 * @param float $lte Minimum
 	 * @param float $gte Maximum
 	 */
-	public function __construct($lte = null, $gte = null, $in = null, array $data = array()) {
+	public function __construct($gte = null, $lte = null, $in = null, array $data = array()) {
 		if (isset($lte)) {
 			if (is_scalar($lte)) {
 				$this->data(['in' => $in, 'lte' => $lte, 'gte' => $gte]) ;
