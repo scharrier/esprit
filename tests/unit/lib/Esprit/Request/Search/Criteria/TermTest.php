@@ -6,7 +6,7 @@ use \Esprit\Request\Search\Criteria\Term as Criteria ;
 class TermTest extends \PHPUnit_Framework_TestCase {
 
 	public function testConstructor() {
-		$criteria = new Criteria('my_field', 'my_value') ;
+		$criteria = new Criteria('my_value','my_field') ;
 		$this->assertEquals(['term' => ['my_field' => ['value' => 'my_value']]], $criteria->to('array')) ;
 	}
 

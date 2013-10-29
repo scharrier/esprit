@@ -9,8 +9,8 @@ class ShouldTest extends \PHPUnit_Framework_TestCase {
 
 	public function testConstructor() {
 		$criteria = new Criteria(
-			new Term('first','value'),
-			new Term('second','value'),
+			new Term('value', 'first'),
+			new Term('value', 'second'),
 			array('minimum_should_match' => 2)
 		);
 

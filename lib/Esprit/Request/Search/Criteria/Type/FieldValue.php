@@ -12,15 +12,22 @@ abstract class FieldValue extends \Esprit\Request\Search\Criteria {
 	 * @param mixed $in    In : field name or data array
 	 * @param mixed $value Search value
 	 */
-	public function __construct($in = null, $value = null) {
-		// Simpl instanciation
-		if (isset($in)) {
-			if (is_string($in)) {
-				$this->data(['in' => $in, 'value' => $value]) ;
+	public function __construct($value = null, $in = null) {
+		// Simple instanciation
+		if (isset($value)) {
+			// Value or global data
+			if ($this->_property($value)) {
+				$this->data('value', $value) ;
 			} else {
-				parent::__construct($in) ;
+				parent::__construct($value) ;
+			}
+
+			// In
+			if (isset($in)) {
+				$this->data('in', $in) ;
 			}
 		}
+
 	}
 
 	/**
@@ -52,5 +59,22 @@ abstract class FieldValue extends \Esprit\Request\Search\Criteria {
 	 */
 	public function value($value = null) {
 		return $this->_setget('value', $value) ;
+	}
+
+	/**
+	 * Check if data is a single property or a global data array.
+	 *
+	 * @param  mixed $value Value to check
+	 * @return bool         Test result
+	 */
+	protected function _property($value) {
+		if (is_scalar($value)) {
+			return true ;
+		}
+		if (is_array($value) && is_numeric(key($value))) {
+			return true ;
+		}
+
+		return false ;
 	}
 }

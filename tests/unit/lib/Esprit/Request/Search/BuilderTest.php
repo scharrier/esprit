@@ -6,19 +6,19 @@ use \Esprit\Request\Search\Builder as B ;
 class BuilderTest extends \PHPUnit_Framework_TestCase {
 
 	public function testSimpleCalls() {
-		$criteria = B::term('field','value') ;
+		$criteria = B::term('value', 'field') ;
 		$this->assertTrue($criteria instanceof \Esprit\Request\Search\Criteria\Term) ;
 		$this->assertEquals('value', $criteria->to('array')['term']['field']['value']) ;
 
-		$criteria = B::matchAll('field','value') ;
+		$criteria = B::matchAll('value', 'field') ;
 		$this->assertTrue($criteria instanceof \Esprit\Request\Search\Criteria\MatchAll) ;
 	}
 
 	public function testComplexCalls() {
 		// Global test
 		$criteria = B::should(
-			B::term('first_field','value'),
-			B::terms('second_field',['value_1','value_2']),
+			B::term('value', 'first_field'),
+			B::terms(['value_1','value_2'], 'second_field'),
 			B::must(
 				B::matchAll(),
 				B::field(['in' => 'first_field','value' => '+select -that'])
@@ -46,8 +46,8 @@ class BuilderTest extends \PHPUnit_Framework_TestCase {
 
 		// Ranges
 		$criteria = B::must(
-			B::lt('field',10),
-			B::gt('field', 2)
+			B::lt(10, 'field'),
+			B::gt(2, 'field')
 		) ;
 
 		$res = [

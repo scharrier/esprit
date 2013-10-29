@@ -9,8 +9,8 @@ class MustTest extends \PHPUnit_Framework_TestCase {
 
 	public function testConstructor() {
 		$criteria = new Criteria(
-			new Term('first','value'),
-			new Term('second','value')
+			new Term('value', 'first'),
+			new Term('value', 'second')
 		);
 
 		$res = $criteria->to('array')['bool'] ;
