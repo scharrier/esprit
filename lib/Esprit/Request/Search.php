@@ -91,7 +91,7 @@ class Search extends \Esprit\Request {
 	public function __construct($body = null, $options = null, \Esprit\Transport $transport = null) {
 		// Builders
 		$this->_query = new \Esprit\Request\Search\Builder\Query() ;
-		$this->_filters = new \Esprit\Request\Search\Builder\Filters() ;
+		$this->_filter = new \Esprit\Request\Search\Builder\Filter() ;
 
 		parent::__construct($body, $options, $transport);
 	}
@@ -111,8 +111,11 @@ class Search extends \Esprit\Request {
 
 		$body = [
 			'query' => $this->_query->data(),
-			'filters' => $this->_filters->data()
 		] + $body ;
+
+		if (count($this->_filter)) {
+			$body['filter'] = $this->_filter->data() ;
+		}
 
 		// Sort format
 		if (!empty($body['sort'])) {
@@ -200,10 +203,10 @@ class Search extends \Esprit\Request {
 		$args = func_get_args() ;
 
 		if (!$args) {
-			return $this->_filters ;
+			return $this->_filter ;
 		} else {
 			foreach($args as $criteria) {
-				$this->_filters->add($criteria) ;
+				$this->_filter->add($criteria) ;
 			}
 		}
 

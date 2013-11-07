@@ -6,7 +6,7 @@ use \Esprit\Request\Search\Criteria ;
 /**
  * Generic class for all parent criterias, like Should/Or.
  */
-abstract class ParentCriteria extends Criteria {
+abstract class ParentCriteria extends Criteria implements \Countable {
 
 	/**
 	 * Criteria children.
@@ -36,6 +36,15 @@ abstract class ParentCriteria extends Criteria {
 	 */
 	public function add(Criteria $child) {
 		$this->_children[] = $child ;
+	}
+
+	/**
+	 * Counts the children (implements Countable)
+	 *
+	 * @return int Children count
+	 */
+	public function count() {
+		return count($this->_children) ;
 	}
 
 	/**
