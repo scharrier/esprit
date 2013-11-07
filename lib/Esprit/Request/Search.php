@@ -55,20 +55,6 @@ class Search extends \Esprit\Request {
 	);
 
 	/**
-	 * Current subobject working.
-	 *
-	 * @var string
-	 */
-	protected $_current = 'query' ;
-
-	/**
-	 * Fluid calls marker : initiated on the first fluid call.
-	 *
-	 * @var boolean
-	 */
-	protected $_fluid = false ;
-
-	/**
 	 * Query builder.
 	 *
 	 * @var \Esprit\Request\Search\Builder\Query
@@ -81,13 +67,6 @@ class Search extends \Esprit\Request {
 	 * @var \Esprit\Request_Search_Builder_Filter
 	 */
 	protected $_filters ;
-
-	/**
-	 * Facet builder.
-	 *
-	 * @var \Esprit\Request_Search_Builder_Facet
-	 */
-	protected $_facet ;
 
 	/**
 	 * Request options.
@@ -111,15 +90,8 @@ class Search extends \Esprit\Request {
 	 */
 	public function __construct($body = null, $options = null, \Esprit\Transport $transport = null) {
 		// Builders
-		$this->_query = new \Esprit\Request\Search\Builder\Query(null, $this) ;
-		$this->_filters = new \Esprit\Request\Search\Builder\Filters(null, $this) ;
-		$this->_facets = new \Esprit\Request\Search\Builder\Facets(null, $this) ;
-
-		// Simple query_string search : give it to builder.
-		if (isset($body['query']) && is_string($body['query'])) {
-			$this->_query->add($body['query']) ;
-			unset($body['query']) ;
-		}
+		$this->_query = new \Esprit\Request\Search\Builder\Query() ;
+		$this->_filters = new \Esprit\Request\Search\Builder\Filters() ;
 
 		parent::__construct($body, $options, $transport);
 	}
@@ -137,18 +109,10 @@ class Search extends \Esprit\Request {
 
 		$body = parent::body() ;
 
-		if (empty($body['query'])) {
-			// Force a match_all
-			$body['query'] = $this->_query->to('array') ;
-		}
-
-		if (empty($body['filter']) && $this->_filters->count()) {
-			$body['filter'] = $this->_filters->to('array') ;
-		}
-
-		if (empty($body['facets']) && $this->_facets->count()) {
-			$body['facets'] = $this->_facets->to('array') ;
-		}
+		$body = [
+			'query' => $this->_query->data(),
+			'filters' => $this->_filters->data()
+		] + $body ;
 
 		// Sort format
 		if (!empty($body['sort'])) {
@@ -168,11 +132,11 @@ class Search extends \Esprit\Request {
 			$body['highlight']['fields'] = $highlight ;
 		}
 
-                foreach($body as $key => $value) {
-                    if (!isset($value)) {
-                        unset($body[$key]) ;
-                    }
-                }
+		foreach($body as $key => $value) {
+			if (!isset($value)) {
+				unset($body[$key]) ;
+			}
+		}
 
 		return $body ;
 	}
@@ -212,13 +176,15 @@ class Search extends \Esprit\Request {
 	 * @param mixed		$query			Setter : Query definition.
 	 * @return \\Esprit\Request_Search	This instance
 	 */
-	public function query($query = null, $options = array()) {
-		// Save current subobject
-		$this->_current = 'query' ;
-		$this->_fluid = true ;
+	public function query() {
+		$args = func_get_args() ;
 
-		if (isset($query)) {
-			$this->_query->add($query, $options) ;
+		if (!$args) {
+			return $this->_query ;
+		} else {
+			foreach($args as $criteria) {
+				$this->_query->add($criteria) ;
+			}
 		}
 
 		return $this ;
@@ -230,101 +196,17 @@ class Search extends \Esprit\Request {
 	 * @param mixed		$filter			Setter : Query definition.
 	 * @return \\Esprit\Request_Search	This instance
 	 */
-	public function filter($filter = null, $options = array()) {
-		// Save current subobject
-		$this->_current = 'filters' ;
-		$this->_fluid = true ;
+	public function filter() {
+		$args = func_get_args() ;
 
-		if (isset($filter)) {
-			$this->_filters->add($filter, $options) ;
-		}
-		return $this ;
-	}
-
-	/**
-	 * Add a facet.
-	 *
-	 * @param mixed		$facet			Setter : Query definition.
-	 * @return \\Esprit\Request_Search	This instance
-	 */
-	public function facet($facet =null, $options = array()) {
-		// Save current subobject
-		$this->_current = 'facets' ;
-		$this->_fluid = true ;
-
-		if (isset($facet)) {
-			$this->_facets->add($facet, $options) ;
-		}
-
-		return $this ;
-	}
-
-	/**
-	 * Add multiples field queries one time. It's a simplified call wich permit to give this kind of array :
-	 * $request->queries(array(
-	 *		'field' => 'value',
-	 *		'other_field' => array('value 1', 'value 2')
-	 * ));
-	 *
-	 * @param array $queries			List of criteries. Field name in key, search in value.
-	 * @return \\Esprit\Request_Search	This instance.
-	 */
-	public function queries(array $queries) {
-		// Save current subobject
-		$this->_current = 'query' ;
-		$this->_fluid = true ;
-
-		foreach($queries as $in => $match) {
-			$this->_query->add(array('query' => $match, 'in' => $in)) ;
-		}
-		return $this ;
-	}
-
-	/**
-	 * Add multiples field queries one time. It's a simplified call wich permit to give this kind of array :
-	 * $request->queries(array(
-	 *		'field' => 'value',
-	 *		'other_field' => array('value 1', 'value 2')
-	 * ));
-	 *
-	 * @param array $filters			List of criteries. Field name in key, search in value.
-	 * @return \\Esprit\Request_Search	This instance.
-	 */
-	public function filters(array $filters) {
-		// Save current subobject
-		$this->_current = 'filters' ;
-		$this->_fluid = true ;
-
-		foreach($filters as $in => $match) {
-			$this->_filters->add(array('query' => $match, 'in' => $in)) ;
-		}
-		return $this ;
-	}
-
-	/**
-	 * Add multiples facets one time. Support simple calls or full definitions calls :
-	 * $request->facets(array(
-	 *		'field_1',
-	 *		'field_2' => array('order' => 'term)
-	 * )) ;
-	 *
-	 * @param array $facets				Facets definitions.
-	 * @return \\Esprit\Request_Search
-	 */
-	public function facets(array $facets) {
-		// Save current subobject
-		$this->_current = 'facets' ;
-		$this->_fluid = true ;
-
-		foreach($facets as $key => $value) {
-			if (!is_numeric($key)) {
-				if (!is_array($value)) {
-					$value = array('in' => $value) ;
-				}
-				$value = array('name' => $key) + $value ;
+		if (!$args) {
+			return $this->_filters ;
+		} else {
+			foreach($args as $criteria) {
+				$this->_filters->add($criteria) ;
 			}
-			$this->_facets->add($value) ;
 		}
+
 		return $this ;
 	}
 
@@ -446,19 +328,6 @@ class Search extends \Esprit\Request {
 			return $this->{'_' . $this->_current}->options() ;
 		}
 		return parent::options($options) ;
-	}
-
-	/**
-	 * Magic call : chain with subobjects.
-	 *
-	 * @param string	$name		Method name
-	 * @param array		$args		Arguments
-	 * @return \\Esprit\Request_Search
-	 */
-	public function __call($name, $args) {
-		$object = '_' . $this->_current ;
-		call_user_func_array(array($this->{$object}, $name), $args) ;
-		return $this ;
 	}
 
 	/**
