@@ -9,7 +9,6 @@
 		}
 	],
 	"keywords" : ["search","elasticsearch"],
-	"licence" : "MIT",
 	"homepage" : "http://github.com/scharrier/esprit/",
 	"require": {
 		"php" : ">=5.4.0"
