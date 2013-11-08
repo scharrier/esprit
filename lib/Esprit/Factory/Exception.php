@@ -1,5 +1,5 @@
 <?php
-use \Esprit\Factory ;
+namespace Esprit\Factory ;
 
 /**
  * Factory exception.
