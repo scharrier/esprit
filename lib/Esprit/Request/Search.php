@@ -107,15 +107,17 @@ class Search extends \Esprit\Request {
 			return parent::body($body) ;
 		}
 
-		$body = parent::body() ;
+		$body = [] ;
 
-		$body = [
-			'query' => $this->_query->data(),
-		] + $body ;
+		if (count($this->_query)) {
+			$body['query'] = $this->_query->data() ;
+		}
 
 		if (count($this->_filter)) {
 			$body['filter'] = $this->_filter->data() ;
 		}
+
+		$body += parent::body() ;
 
 		// Sort format
 		if (!empty($body['sort'])) {

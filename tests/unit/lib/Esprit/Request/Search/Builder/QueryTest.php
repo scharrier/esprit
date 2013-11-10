@@ -14,8 +14,8 @@ class QueryTest extends \PHPUnit_Framework_TestCase {
 		) ;
 		$res = $query->to('array') ;
 
-		$this->assertEquals(2, count($res['bool']['should'])) ;
-		$this->assertTrue(isset($res['bool']['should'][0]['term']) && isset($res['bool']['should'][1]['term'])) ;
+		$this->assertEquals(2, count($res['bool']['must'])) ;
+		$this->assertTrue(isset($res['bool']['must'][0]['term']) && isset($res['bool']['must'][1]['term'])) ;
 
 		$query = new Query(
 			B::term('sebastian','name')

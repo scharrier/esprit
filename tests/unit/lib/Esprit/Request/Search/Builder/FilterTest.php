@@ -14,7 +14,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase {
 		) ;
 		$res = $filter->to('array') ;
 
-		$this->assertEquals(2, count($res)) ;
-		$this->assertTrue(isset($res[0]['term']) && isset($res[1]['term'])) ;
+		$this->assertEquals(2, count($res['and']['filters'])) ;
+		$this->assertTrue(isset($res['and']['filters'][0]['term']) && isset($res['and']['filters'][1]['term'])) ;
 	}
 }

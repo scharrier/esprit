@@ -1,7 +1,7 @@
 <?php
 namespace Esprit\Request\Search\Builder ;
 
-use Esprit\Request\Search\Builder as B ;
+use Esprit\Request\Search\Criteria\BoolMust ;
 
 class Query extends \Esprit\Request\Search\Criteria\Type\ParentCriteria {
 
@@ -19,7 +19,7 @@ class Query extends \Esprit\Request\Search\Criteria\Type\ParentCriteria {
 			return $this->_children[0]->data() ;
  		}
 
- 		$return = B::should($this->_children) ;
+ 		$return = new BoolMust($this->_children) ;
 		return $return->data() ;
 	}
 }

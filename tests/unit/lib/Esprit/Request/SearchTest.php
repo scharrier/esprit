@@ -20,12 +20,16 @@ class SearchTest extends \PHPUnit_Framework_TestCase {
 		// Base search tests
 		$expected = [
 			'query' => [
-				['term' => [
-					'name' => ['value' => 'scharrier']
-				]],
-				['terms' => [
-					'age' => [10, 20]
-				]]
+				'bool' => [
+					'must' => [
+						['term' => [
+							'name' => ['value' => 'scharrier']
+						]],
+						['terms' => [
+							'age' => [10, 20]
+						]]
+					]
+				]
 			],
             'size' => 0,
             'explain' => false
