@@ -20,12 +20,8 @@ abstract class ParentCriteria extends Criteria implements \Countable {
 	 */
 	public function __construct() {
 		$args = func_get_args() ;
-		foreach($args as $child) {
-			if ($child instanceof Criteria) {
-				$this->add($child) ;
-			} else {
-				$this->data($child) ;
-			}
+		if ($args) {
+			$this->_set($args) ;
 		}
 	}
 
@@ -45,6 +41,25 @@ abstract class ParentCriteria extends Criteria implements \Countable {
 	 */
 	public function count() {
 		return count($this->_children) ;
+	}
+
+	/**
+	 * Smart set : look for criteria instances anywhere in data array.
+	 *
+	 * @param array $data Data to set
+	 */
+	protected function _set(array $data) {
+		foreach($data as $child) {
+			if ($child instanceof Criteria) {
+				$this->add($child) ;
+			} else {
+				if (is_array($child) && is_numeric(key($child))) {
+					$this->_set($child) ;
+				} else {
+					$this->data($child) ;
+				}
+			}
+		}
 	}
 
 	/**
